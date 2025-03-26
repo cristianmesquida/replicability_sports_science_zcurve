@@ -3,7 +3,7 @@ This repository contains all materials, data and code to reproduce the analyses 
 Manuscript
 The folder manuscript/ contains the following documents:
 -	preprint: a PDF document containing the preprint of the study. 
--	preregistration: a PDF document containing the preregistration.
+-	preregistration_OSF: a PDF document containing the preregistration.
 
 Materials
 The folder materials/ contains:

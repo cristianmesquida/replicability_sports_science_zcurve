@@ -13,8 +13,8 @@ The folder materials/ contains:
 Data:
 The folder raw_data/ contains:
 -	raw_data.xlsx contains the original dataset that was double and triple coded. This is the raw data before any steps were taken to resolve disagreements.
--	disgreements3.xlsx: each sheet in this file corresponds to a variable that was triple coded. This dataset was used to compare responses between coders and resolve disagreements.
--	disgreements2.xlsx: each sheet in this file corresponds to a variable that was double coded. This dataset was used to compare responses between coders and resolve disagreements.
+-	disagreements3.xlsx: each sheet in this file corresponds to a variable that was triple coded. This dataset was used to compare responses between coders and resolve disagreements.
+-	disagreements2.xlsx: each sheet in this file corresponds to a variable that was double coded. This dataset was used to compare responses between coders and resolve disagreements.
 -	processed_data contains the dataset after resolving disagreements. This dataset contains data used for both projects: (1) the reproducibility of a priori power analyses and (2) a z-curve analysis.
 -	consolidated_data_zcurve.xlsx contains the raw data used in this manuscript.
 -	zcurve_analysis.xlsx expands on “consolidated_data_zcurve.xlsx” by containing manually created columns to recompute p-values reported imprecisely (e.g., p < 0.05). This dataset cannot be fully recreated in R due to manual modifications. It is the dataset used for the z-curve analysis.
@@ -37,6 +37,6 @@ The folder r_scripts/ contains all analysis scripts that were used to compute al
 -	07_figure2_and_table2.Rmd: an R Markdown documents containing the code to generate Figure 2 and the results presented in Table 2 of the manuscript.
 -	zcurve  _analysis.R: an R Markdown document with the results of the z-curve analysis and the code to generate Figure 3.
 
-Figure 
+Figure: 
 The folder figures/ contains the figures originated from the statistical analyses.
  	

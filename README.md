@@ -35,7 +35,7 @@ The folder r_scripts/ contains all analysis scripts that were used to compute al
 -	05_mild_optional_stopping.R contains code to generate data for Figure 2d.
 -	06_mixed.R contains code to generate data for Figure 2e.
 -	07_figure2_and_table2.Rmd: an R Markdown documents containing the code to generate Figure 2 and the results presented in Table 2 of the manuscript.
--	zcurve  _analysis.R: an R Markdown document with the results of the z-curve analysis and the code to generate Figure 3.
+-	zcurve_analysis.R: an R Markdown document with the results of the z-curve analysis and the code to generate Figure 3.
 
 Figure: 
 The folder figures/ contains the figures originated from the statistical analyses.

@@ -15,28 +15,27 @@ The folder raw_data/ contains:
 -	raw_data.xlsx contains the original dataset that was double and triple coded. This is the raw data before any steps were taken to resolve disagreements.
 -	disagreements3.xlsx: each sheet in this file corresponds to a variable that was triple coded. This dataset was used to compare responses between coders and resolve disagreements.
 -	disagreements2.xlsx: each sheet in this file corresponds to a variable that was double coded. This dataset was used to compare responses between coders and resolve disagreements.
--	processed_data contains the dataset after resolving disagreements. This dataset contains data used for both projects: (1) the reproducibility of a priori power analyses and (2) a z-curve analysis.
+-	processed_data.xlsx contains the dataset after resolving disagreements. This dataset contains data used for both projects: (1) the reproducibility of a priori power analyses and (2) a z-curve analysis.
 -	consolidated_data_zcurve.xlsx contains the raw data used in this manuscript.
 -	zcurve_analysis.xlsx expands on “consolidated_data_zcurve.xlsx” by containing manually created columns to recompute p-values reported imprecisely (e.g., p < 0.05). This dataset cannot be fully recreated in R due to manual modifications. It is the dataset used for the z-curve analysis.
 
 Code:
 The folder r_scripts/ contains all analysis scripts that were used to compute all results presented in the manuscript.
--	power_plot.R contains the code to generate Figure 1 in the manuscript.
+-	power_plot.R: script that contains the code to generate Figure 1 in the manuscript.
 -	The subfolder process_raw_data contains datasets used in this manuscript.
--	01_checking_disagreements.R produces files “disagreements3.xlsx” and “disagreements2.xlsx”.
--	02_intercoder_agreement_function.R contains the functions used to assess intercoder agreement.
--	03_intercoder_agreement.Rmd an R Markdown document presenting the results of the intercoder agreement across variables.
--	04_consolidate_data.R merges columns from “disagreements3.xlsx” and “disagreements2.xlsx” containing responses after disagreements have been resolved.
+-	01_checking_disagreements.R: script that produces files “disagreements3.xlsx” and “disagreements2.xlsx”.
+-	02_intercoder_agreement_function.R: script that contains the functions used to assess intercoder agreement.
+-	03_intercoder_agreement.Rmd: an R Markdown document presenting the results of the intercoder agreement across variables.
+-	04_consolidate_data.R: script that merges columns from “disagreements3.xlsx” and “disagreements2.xlsx” containing responses after disagreements have been resolved.
 -	The subfolder simulations_figure2/ contains the code for simulating all plots presented in Figure 2 of the manuscript, as well as the code used to generate Figure 2 itself and the results of Table 2. This subfolder contains:
--	01_functions.R contains a function used in “02_evidential_value.R”, “03_null _effect.R” and “06_mixed.R”.
--	02_evidential_value.R contains code to generate data for Figure 2a.
--	03_null_effect.R contains code to generate data for Figure 2b.
--	04_publication_bias.R contains code to generate data for Figure 2c.
--	05_mild_optional_stopping.R contains code to generate data for Figure 2d.
--	06_mixed.R contains code to generate data for Figure 2e.
+-	01_functions.R: script contains a function used in “02_evidential_value.R”, “03_null _effect.R” and “06_mixed.R”.
+-	02_evidential_value.R: script that contains code to generate data for Figure 2a.
+-	03_null_effect.R: script that contains code to generate data for Figure 2b.
+-	04_publication_bias.R: script that contains code to generate data for Figure 2c.
+-	05_mild_optional_stopping.R: script that contains code to generate data for Figure 2d.
+-	06_mixed.R: script that contains code to generate data for Figure 2e.
 -	07_figure2_and_table2.Rmd: an R Markdown documents containing the code to generate Figure 2 and the results presented in Table 2 of the manuscript.
--	zcurve_analysis.R: an R Markdown document with the results of the z-curve analysis and the code to generate Figure 3.
+-	zcurve_analysis.Rmd: an R Markdown document that presents (a) the number and proportion of articles from each of the 10 sampled journals, (b) the results of the z-curve analysis and the code to generate Figure 3.
 
 Figure: 
 The folder figures/ contains the figures originated from the statistical analyses.
- 	

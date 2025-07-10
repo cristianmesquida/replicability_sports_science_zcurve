@@ -22,7 +22,7 @@ zcurve_data <- read_xlsx(here("data", "zcurve_data.xlsx"), sheet = "Sheet1")
 ```
 
 
-# Proportion of studies sampled by Journal
+# Number and proportion of articles from each of the 10 sampled journals
 ```{r table_journals, echo=FALSE}
 
 zcurve_data %>% 

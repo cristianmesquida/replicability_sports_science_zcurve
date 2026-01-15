@@ -4,6 +4,6 @@
 .Ruserdata
 .idea
 .DS_Store
-manuscript/trackdown.R
-manuscript/.trackdown
-manuscript/images
+/manuscript/trackdown.R
+/manuscript/.trackdown
+/manuscript/images

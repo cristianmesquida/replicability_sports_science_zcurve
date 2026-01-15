@@ -1,5 +1,5 @@
 # Repository
-This repository contains all materials, data and code to reproduce the analyses presented in our manuscript. 
+This repository contains all materials, data, and code required to reproduce the analyses presented in our manuscript, as well as the manuscript itself, written in Quarto.
 
 # Project structure
 ```

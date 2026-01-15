@@ -1,41 +1,53 @@
-This repository contains all materials, data and code to reproduce the analyses presented in our manuscript. It includes the study preregistration, the raw data, R scripts and R Markdown files used to generate the results. Below is an overview of the structure of this repository and a brief description of the files.
+# Repository
+This repository contains all materials, data and code to reproduce the analyses presented in our manuscript. 
 
-Manuscript:
-The folder manuscript/ contains the following documents:
--	preprint: a PDF document containing the preprint of the study. 
--	preregistration_OSF: a PDF document containing the preregistration.
-
-Materials:
-The folder materials/ contains:
--	supplementary_information: a PDF document with the formulas used to recompute p-values from standardized effect sizes.
--	coding_form: a PDF document with the coding scheme used to code data from sampled studies. This coding scheme was applied in two projects: (1) the reproducibility of a priori power analyses and (2) a z-curve analysis.
-
-Data:
-The folder raw_data/ contains:
--	raw_data.xlsx contains the original dataset that was double and triple coded. This is the raw data before any steps were taken to resolve disagreements.
--	disagreements3.xlsx: each sheet in this file corresponds to a variable that was triple coded. This dataset was used to compare responses between coders and resolve disagreements.
--	disagreements2.xlsx: each sheet in this file corresponds to a variable that was double coded. This dataset was used to compare responses between coders and resolve disagreements.
--	processed_data.xlsx contains the dataset after resolving disagreements. This dataset contains data used for both projects: (1) the reproducibility of a priori power analyses and (2) a z-curve analysis.
--	consolidated_data_zcurve.xlsx contains the raw data used in this manuscript.
--	zcurve_analysis.xlsx expands on “consolidated_data_zcurve.xlsx” by containing manually created columns to recompute p-values reported imprecisely (e.g., p < 0.05). This dataset cannot be fully recreated in R due to manual modifications. It is the dataset used for the z-curve analysis.
-
-Code:
-The folder r_scripts/ contains all analysis scripts that were used to compute all results presented in the manuscript.
--	power_plot.R: script that contains the code to generate Figure 1 in the manuscript.
--	The subfolder process_raw_data contains datasets used in this manuscript.
--	01_checking_disagreements.R: script that produces files “disagreements3.xlsx” and “disagreements2.xlsx”.
--	02_intercoder_agreement_function.R: script that contains the functions used to assess intercoder agreement.
--	03_intercoder_agreement.Rmd: an R Markdown document presenting the results of the intercoder agreement across variables.
--	04_consolidate_data.R: script that merges columns from “disagreements3.xlsx” and “disagreements2.xlsx” containing responses after disagreements have been resolved.
--	The subfolder simulations_figure2/ contains the code for simulating all plots presented in Figure 2 of the manuscript, as well as the code used to generate Figure 2 itself and the results of Table 2. This subfolder contains:
--	01_functions.R: script contains a function used in “02_evidential_value.R”, “03_null _effect.R” and “06_mixed.R”.
--	02_evidential_value.R: script that contains code to generate data for Figure 2a.
--	03_null_effect.R: script that contains code to generate data for Figure 2b.
--	04_publication_bias.R: script that contains code to generate data for Figure 2c.
--	05_mild_optional_stopping.R: script that contains code to generate data for Figure 2d.
--	06_mixed.R: script that contains code to generate data for Figure 2e.
--	07_figure2_and_table2.Rmd: an R Markdown documents containing the code to generate Figure 2 and the results presented in Table 2 of the manuscript.
--	zcurve_analysis.Rmd: an R Markdown document that presents (a) the number and proportion of articles from each of the 10 sampled journals, (b) the results of the z-curve analysis and the code to generate Figure 3.
-
-Figure: 
-The folder figures/ contains the figures originated from the statistical analyses.
+# Project structure
+```
+replicability_sports_science_zcurve/
+├── preregistration_OSF.pdf # Preregistration document
+|
+├── manuscript/ 
+│   ├── preprint.pdf       # Preprint of the study
+│   ├── manuscript.qmd     # Quarto document to fully reproduce the manuscript
+|   └── references.bib     # Bib file contianing the references used in the manuscript
+|
+├── materials/ 
+│   ├── supplementary_information.pdf # Formulas to recompute p-values
+│   └── coding_form.pdf               # Coding scheme used in two projects
+|
+├── data/ 
+│   ├── raw_data.xlsx                  # Original dataset before resolving disagreements
+│   ├── disagreements3.xlsx            # Triple-coded dataset to resolve disagreements
+│   ├── disagreements2.xlsx            # Double-coded dataset to resolve disagreements
+│   ├── processed_data.xlsx            # Dataset after resolving disagreements
+│   ├── consolidated_data_zcurve.xlsx  # Raw data used in this manuscript
+│   ├── zcurve_analysis.xlsx           # Dataset with manual modifications for z-curve analysis
+|   ├── simulations.RDS                # Contains the data simulated for Figure 2 and Table 2
+|   └── table2.RDS                     # Results stored from Table 2
+|
+├── r_scripts/️
+│   ├── power_plot.R                              # Generates Figure 1
+│   └── simulations_figure2/                      # Code and results for Figure 2 and Table 2
+│       ├── 01_functions.R                        # Functions used by other scripts
+│       ├── 02_evidential_value.R                 # Generates data for Figure 2a
+│       ├── 03_null_effect.R                      # Generates data for Figure 2b
+│       ├── 04_publication_bias.R                 # Generates data for Figure 2c
+|       ├── 05_publication_bias_and_null_effect.R # Generates data for Figure 2c
+│       ├── 06_mild_optional_stopping.R           # Generates data for Figure 2d
+│       ├── 07_mixed.R                            # Generates data for Figure 2e
+│       ├── 08_run_simulations.R                  # Run scripts 02-07
+|       ├── 09_figure2.R                          # Creates Figure 2
+|       ├── 10_table2.R                           # Creates Table 2
+|   ├── intercoder_agreement/
+│       ├── 01_checking_disagreements.R         # Produces disagreements3.xlsx & disagreements2.xlsx
+│       ├── 02_intercoder_agreement_function.R  # Functions to assess intercoder agreement
+│       ├── 03_intercoder_agreement.Rmd         # Results of intercoder agreement across variables
+│       └── 04_consolidate_data.R               # Merges columns after resolving disagreements
+|   ├── zcurve_analysis.Rmd                     # Includes the the number of studies per journal, descriptive statistics regarding how p-values were reported and the z-curve analysis on the 350 independent p-values and creates Figure 3
+|   └── zcurve_sensitivity_analysis.Rmd         # Includes the z-curves conduced as sensitivity analyses 
+|
+└── figures/ 
+    ├── figure2.png.             # Contains the 6 z-curve plots created using simulated data
+    ├── figure3.png.             # Contains the z-curve plot of the 350 independent p-values
+    └── secondary_zcurve.png.    # Contains the z-curve plot of the z-curve analysis conducted as a sensitivity analysis
+```

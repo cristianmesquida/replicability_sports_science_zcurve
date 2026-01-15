@@ -4,156 +4,61 @@ output: html_document
 date: "2025-01-20"
 ---
 
-```{r setup, include=FALSE}
+Load packages
 
-knitr::opts_chunk$set(echo = TRUE)
-
-# Load packages
-library(here)
+```{r}
+#| echo: false
+#| message: false
 library(readxl)
 library(dplyr)
-library(kableExtra)
 library(zcurve)
-library(ggplot2)
-
-# Load data
-zcurve_data <- read_xlsx(here("data", "zcurve_data.xlsx"), sheet = "Sheet1")
-
 ```
 
+Load data
 
-# Number and proportion of articles from each of the 10 sampled journals
-```{r table_journals, echo=FALSE}
-
-zcurve_data %>% 
-  rename(Journal = journal) %>%
-  select(Journal) %>% 
-  group_by(Journal) %>% 
-  summarise(Number = n(),
-            "Proportion (%)" = round(Number / nrow(zcurve_data)*100, 0)) %>%
-  kbl() %>%
-  kable_styling()
-
+```{r}
+zcurve_data <- read_xlsx("../data/zcurve_data.xlsx", sheet = "Sheet1")
 ```
 
+Primary z-curve
 
-```{r excluded, echo=FALSE}
-
-# Total number of excluded p-values
-excluded <- zcurve_data %>% 
-    filter(include == "no") %>% 
-    summarise(excluded = n()) %>% pull()
-
-# Proportion excluded
-prop_excluded <- round(excluded / nrow(zcurve_data)*100, 0) 
-
-```
-
-
-
-```{r excluded_category, echo=FALSE}
-
-# Number and proportion of excluded p-values by category
-excluded_category <- zcurve_data %>% 
-                          mutate(reason_exclusion = case_when(
-                                       reason_exclusion == "p <" ~ "not reported",
-                                       reason_exclusion == "p >" ~ "not reported",
-                                       TRUE ~ reason_exclusion)) %>%
-                          filter(include == "no") %>% 
-                          group_by(reason_exclusion) %>%
-                          summarise(number = n()) %>%
-                          mutate(proportion = round(number / sum(number) * 100, 0))  
-
-```
-
-
-```{r included, echo=FALSE}
-
-# Number of p-values included in z-curve as p = 0.0001, p = 0.0005 or p = 0.0003
-included_as_exact <- zcurve_data %>% 
-                        filter(include == "yes") %>% 
-                        group_by(reason_exclusion) %>% 
-                        summarise(number = n(),
-                        proportion = round(number / nrow(zcurve_data) * 100, 1))
-
-```
-
-# Results z-curve
-
-## Excluded p-values
-Out of the `r nrow(zcurve_data)` independent p-values extracted,  `r excluded_category$number[1]` (`r excluded_category$proportion[1]`%) could not be recomputed into an exact p-value. Furthermore, 
-`r excluded_category$number[2]` (`r excluded_category$proportion[2]`%) studies tested the hypothesis of no difference, `r excluded_category$number[3]` (`r excluded_category$proportion[3]`%) studies reported a significant p-value in the opposite direction as predicted, for `r excluded_category$number[4]` (`r excluded_category$proportion[4]`%) studies the key statistical result was unclear. Therefore, a total of `r excluded` p-values were excluded, and a total of `r nrow(zcurve_data) - excluded` p-values were converted into z-scores to fit the z-curve model. Out of these `r nrow(zcurve_data) - excluded` p-values, `r included_as_exact$number[1]` were reported as p < 0.001 and `r included_as_exact$number[2]` as p < 0.005. As a sensitivity analyses, z-curve analysis excluding the p-values coded as p = 0.0001 and p = 0.0005 can be found at []. 
-
-
-## Primary z-curve
 ```{r main_results, echo=FALSE}
-
 # select p-values to be included in the z-curve analysis
 pvalues <- zcurve_data %>%
-           filter(include == "yes" & !is.na(zcurve_pvalue)) %>%
-           select(zcurve_pvalue) %>%
-           pull() %>%
-           as.numeric()
+  filter(include == "yes" & !is.na(zcurve_pvalue)) %>%
+  select(zcurve_pvalue) %>%
+  pull() %>%
+  as.numeric()
 
 # primary zcurve analysis
 primary_zcurve <- zcurve(p = pvalues)
-(results <- summary(primary_zcurve, all = TRUE))
 
+results <- summary(primary_zcurve, all = TRUE)
 ```
 
-The results of the z-curve analysis are shown in Figure 3. The Observed Discovery Rate was `r round(primary_zcurve$N_sig/primary_zcurve$N_obs, 2)` 95% CI [; ] indicating that `r round(primary_zcurve$N_sig / primary_zcurve$N_obs, 2)*100`% of sampled studies supported the hypothesis tested. The Expected Discovery Rate 
-was `r round(results$coefficients[2], 2)`; [`r round(results$coefficients[2,2], 2)`; `r round(results$coefficients[2,3], 2)`] indicating an average power of `r round(results$coefficients[2]*100, 0)`% for studies reporting both significant and non-significant results. The Expected Replication Rate was 
-`r round(results$coefficients[1], 2)` 95% CI [`r round(results$coefficients[1,2], 2)`; `r round(results$coefficients[1,3], 2)`] indicating that studies reporting significant results have an average power of `r round(results$coefficients[1]*100, 0)`%. This suggests that if we were going to conduct direct replications with the sample size of the original studies reporting significant findings, only `r round(results$coefficients[1]*100, 0)`% of these studies would be expected to yield another significant effect. Publication bias can be examined by comparing the Observed Discovery Rate (the percentage of significant results in the set of studies) to the Expected Discovery Rate (the proportion of the area under the curve on the right side of the significance criterion). The point estimate of the Observed Discovery Rate (0.68) is larger than the upper bound of the 95% CI of the Expected Discovery Rate of [`r round(results$coefficients[2,2], 2)`; `r round(results$coefficients[2,3], 2)`] suggesting that we can statistically reject the null hypothesis that there is no publication bias. The point estimate of the Maximum False Discovery Risk was `r round(results$coefficients[3],2)` 95% CI [`r round(results$coefficients[3,2], 2)`; `r round(results$coefficients[3,3], 2)`] indicating that almost half of the significant effects could be type I errors. Finally, a visual inspection of Figure 2 also indicates that there is a notable tail with z-scores greater than 3 that indicates the presence of studies investigating true effects with high-power designs.
+Figure 3
 
-## Figure 3
 ```{r echo=FALSE}
-
-pdf(here("figures", "figure3.pdf"), height = 6, width = 6, useDingbats = F)
+png(here("figures", "figure3.png"), width = 1300, height = 1300, res = 200)
 plot(primary_zcurve, CI = TRUE, annotation = TRUE, main = "")
 dev.off()
+```
 
+```{r}
+plot(primary_zcurve, CI = TRUE, annotation = TRUE, main = "")
 ```
 
 
-```{r}
+Proportion of studies with large power
 
+```{r}
 # Compute the required z-score to obtain 80% power
-power_to_z(0.8, alpha = 0.05)
+z_score <- power_to_z(0.8, alpha = 0.05)
 
 # Calculate the number of z-scores larger than 2.85
-sum(primary_zcurve$data > 2.801582) 
+sum(primary_zcurve$data > z_score) 
 
 # Calculate the proportion of z-scores larger than 2.85
 sum(primary_zcurve$data > 2.801582) / length(primary_zcurve$data) *100
-
 ```
 
-## Secondary z-curve
-We conducted a z-curve analysis excluding p-values that could be not recomputed 
-when reported as "p < 0.001", "p < 0.005" and "p < 0.003" but were imputed as 
-p = 0.0001 and 0.0005 in the primary z-curve.
-```{r, echo=FALSE}
-
-sensitivity_pvalues <- zcurve_data %>%
-                       filter(include == "yes" & !is.na(zcurve_pvalue)) %>%
-                       filter(!reason_exclusion %in% c("p < 0.001", 
-                                                       "p < 0.005",
-                                                       "p < 0.003")) %>%
-                       select(zcurve_pvalue) %>%
-                       pull() %>%
-                       as.numeric()
-
-secondary_zcurve <- zcurve(p = sensitivity_pvalues)
-summary(secondary_zcurve, all = TRUE) 
-
-```
-
-
-```{r, echo = FALSE, include = FALSE}
-
-# sensitivity zcurve plot
-pdf(here("figures", "secondary_zcurve.pdf"), height = 6, width = 6, useDingbats = F)
-plot(secondary_zcurve, CI = TRUE, annotation = TRUE, main = NULL)
-dev.off()
-
-```

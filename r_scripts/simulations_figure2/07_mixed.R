@@ -2,31 +2,19 @@
 ## 1) simulate studies designed with high, medium and low power and investigating a null effect
 ## 2) simulate studies in the presence of publication bias
 ## 3) simulate mild optional stopping
-## 4) conduct the corresponding z-curve analysis
-
-
-# Load package
-library(zcurve)
-
-# Execute to load the function to simulate data 
-source(here::here("r_scripts","simulations_figure2", "01_functions.R")) 
 
 # For reproducibility purposes
 set.seed(1234) 
 
-
-## 1) Simulate 300 p-values from studies with high-, medium- and low-power designs 
+## Simulate 300 p-values from studies with high-, medium- and low-power designs 
 # to detect a Cohen's ds of 0.3 and and studies investigating a null effect
 high_power <- run_simulation(n = 139, mean_diff = 0.3, sd = 1, nsims = 100)
 medium_power <- run_simulation(n = 50, mean_diff = 0.3, sd = 1, nsims = 100)
 low_power <- run_simulation(n = 13, mean_diff = 0.3, sd = 1, nsims = 100)
 
-
 # Combine all above studies
 no_bias <- c(high_power$p_value, medium_power$p_value, 
              low_power$p_value)
-
-
 
 ## 2) Publication bias
 # Randmonly remove 30% of non-significant p-values
@@ -35,17 +23,14 @@ remove_count <- round(length(non_significant) * 0.30)
 remove_indices <- sample(non_significant, remove_count)
 p_values_filtered <- no_bias[-remove_indices]
 
-
 ## 3) Severe optional stopping
 # Set parameters to simulate optional stopping
-N <- 50 # total data points (per condition)
-looks <- 50 # set number of looks at the data
-nsims <- 1000 # number of simulated studies
-alphalevel <- 0.05 # set alpha level
-
+N <- 50             # total data points (per condition)
+looks <- 50         # set number of looks at the data
+nsims <- 1000       # number of simulated studies
+alphalevel <- 0.05  # set alpha level
 
 set.seed(1234) # for reproducibility purposes
-
 
 if(looks > 1){
   look_at_n <- ceiling(seq(N / looks, N, (N - (N / looks)) / (looks - 1)))
@@ -75,19 +60,11 @@ for (i in 1:nsims) {
                  matp[i,looks], matp[i,which(matp[i,] < alphalevel)])
 }
 
-
 # Randomly select significant p-values obtained through optional stopping
 phacked <- p[p >= 0.01 & p <= 0.05]
 phacked <- sample(phacked, 300 - length(p_values_filtered))
 
-
-# combine all simulated p-values
-all_p <- c(p_values_filtered, phacked)
-
-
-## 2) z-curve analysis
-zcurve_mixed <- zcurve(p = all_p)
-summary(zcurve_mixed, all = TRUE)
-
+# Combine all simulated p-values
+mixed <- c(p_values_filtered, phacked)
 
 

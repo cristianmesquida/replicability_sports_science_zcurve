@@ -1,21 +1,12 @@
-## This R script was used to:
-## 1) simulate p-values when researchers engage in mild optional stopping
-## 2) conduct the corresponding zcurve analysis
-
-
-# Load package
-library(zcurve) 
+## This R script was used to simulate p-values when researchers engage in mild optional stopping
 
 # For reproducibility purposes
 set.seed(1234) 
 
-
-## 1) Simulate mild optional stopping
-
 # Set parameters to run simulation
-N <- 50 # total data points (per condition)
-looks <- 5 # set number of looks at the data
-nsims <- 300 # number of simulated studies
+N <- 50            # total data points (per condition)
+looks <- 5         # set number of looks at the data
+nsims <- 300       # number of simulated studies
 alphalevel <- 0.05 # set alpha level
 
 
@@ -47,13 +38,5 @@ for (i in 1:nsims) {
                  matp[i,looks], matp[i,which(matp[i,] < alphalevel)])
 }
 
-
-## 2) zcurve analysis
-zcurve_mild_optional_stopping <- zcurve(p = p)
-summary(zcurve_mild_optional_stopping, all = TRUE)
-
-
-# Number of significant p-values
-power_function(p)
 
 

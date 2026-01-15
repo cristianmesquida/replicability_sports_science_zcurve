@@ -1,8 +1,6 @@
 ## This script was used to create Figure 1
 
-
 # Load packages
-library(dplyr)
 library(ggplot2)
 library(here)
 
@@ -48,7 +46,5 @@ figure1 <- ggplot(data = results) +
                      expand = c(0, 0)) +
   theme_bw()
 
-print(figure1)
-
-ggsave(here("figures", "figure1.pdf"), width = 10, height = 8, units = "cm")
+ggsave(here("figures", "fig1.png"), width = 10, height = 8, units = "cm")
 

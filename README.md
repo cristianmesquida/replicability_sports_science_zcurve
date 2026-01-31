@@ -7,9 +7,13 @@ replicability_sports_science_zcurve/
 ├── preregistration_OSF.pdf # Preregistration document
 |
 ├── manuscript/ 
-│   ├── preprint.pdf       # Preprint of the study
-│   ├── manuscript.qmd     # Quarto document to fully reproduce the manuscript
-|   └── references.bib     # Bib file contianing the references used in the manuscript
+│   ├── preprint.pdf             # Preprint of the study
+│   ├── manuscript.qmd           # Quarto document to fully reproduce the manuscript
+│   ├── manuscript.pdf           # PDF document of the manuscript
+|   ├── references.bib           # Bib file contianing the references used in the manuscript
+|   └── session-info.txt         # Snapshot of current R session for manuscript.qmd
+|   ├── sensitivity_analyses.qmd # Quarto document to fully reproduce the additional z-curve analyses performed as sensitivity analyses 
+|   └── sensitivity_analyses.pdf # PDF document containing the results of the sensitivity analyses 
 |
 ├── materials/ 
 │   ├── supplementary_information.pdf # Formulas to recompute p-values
@@ -43,11 +47,10 @@ replicability_sports_science_zcurve/
 │       ├── 02_intercoder_agreement_function.R  # Functions to assess intercoder agreement
 │       ├── 03_intercoder_agreement.Rmd         # Results of intercoder agreement across variables
 │       └── 04_consolidate_data.R               # Merges columns after resolving disagreements
-|   ├── zcurve_analysis.Rmd                     # Includes the the number of studies per journal, descriptive statistics regarding how p-values were reported and the z-curve analysis on the 350 independent p-values and creates Figure 3
-|   └── zcurve_sensitivity_analysis.Rmd         # Includes the z-curves conduced as sensitivity analyses 
-|
-└── figures/ 
-    ├── figure2.png.             # Contains the 6 z-curve plots created using simulated data
-    ├── figure3.png.             # Contains the z-curve plot of the 350 independent p-values
-    └── secondary_zcurve.png.    # Contains the z-curve plot of the z-curve analysis conducted as a sensitivity analysis
+|   └── zcurve_analysis.Rmd                     # Includes the the number of studies per journal, descriptive statistics regarding how p-values were reported and the z-curve analysis on the 350 independent p-values and creates Figure 3
+|    
+├── figures/ 
+|   ├── figure2.png.             # Contains the 6 z-curve plots created using simulated data
+|   ├── figure3.png.             # Contains the z-curve plot of the 350 independent p-values
+└── └── secondary_zcurve.png.    # Contains the z-curve plot of the z-curve analysis conducted as a sensitivity analysis
 ```

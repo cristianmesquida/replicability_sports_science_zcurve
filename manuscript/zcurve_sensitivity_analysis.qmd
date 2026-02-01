@@ -35,7 +35,6 @@ pvalues <- zcurve_data %>%
   as.numeric()
 ```
 
-
 ## Secondary z-curve analyses
 
 Four sensitivity analyses were conducted to assess the robustness of the results to different analytic decisions.
@@ -47,9 +46,13 @@ We conduct a $z$-curve analysis excluding $p$-values that could be not recompute
 ```{r}
 #| echo: false
 #| warning: false
+#| fig-height: 6
+#| fig-width: 6
 
 sensitivity_1 <- zcurve_data %>%
+  # Select studies that were included + no missing cases
   filter(include == "yes" & !is.na(zcurve_pvalue)) %>%
+  # Exclude studies for which p-values were imputed
   filter(!reason_exclusion %in% c("p < 0.001", 
                                   "p < 0.005",
                                   "p < 0.003")) %>%
@@ -58,28 +61,18 @@ sensitivity_1 <- zcurve_data %>%
   as.numeric()
 
 sensitivity_1 <- zcurve(p = sensitivity_1)
-sensitivity_1_results <- summary(sensitivity_1, all = TRUE) 
-sensitivity_1_results
-```
-
-Plot the results:
-
-```{r}
-#| echo: false
-#| warning: false
-#| fig-height: 5
-#| fig-width: 5
-
 plot(sensitivity_1, CI = TRUE, annotation = TRUE, main = NULL)
 ```
 
 ### Sensitivity analysis 2
 
-We conduct a $z$-curve analysis replacing $p$-values reported as $p$ \< 0.05 for $p$ \< 0.25
+We conduct a $z$-curve analysis replacing $p$-values reported as $p$ \< 0.05 for $p$ \< 0.025
 
 ```{r}
 #| echo: false
 #| warning: false
+#| fig-height: 6
+#| fig-width: 6
 
 # Select studies that reported p as "p < 0.05" and were not included in the z-curve analysis
 s_imprecise_pvalues <- zcurve_data %>%
@@ -88,7 +81,7 @@ s_imprecise_pvalues <- zcurve_data %>%
 
 # Convert "p < 0.05" to 0.25
 s_imprecise_pvalues <- s_imprecise_pvalues %>%
-  mutate(zcurve_pvalue = case_when(include == "no" & pvalue == "p < 0.05" ~ 0.25,
+  mutate(zcurve_pvalue = case_when(include == "no" & pvalue == "p < 0.05" ~ 0.025,
                              TRUE ~ as.numeric(zcurve_pvalue))) 
 
 # Combine both sets of p-values
@@ -99,28 +92,18 @@ combined_pvalues <- c(
 
 # Conduct zcurve analysis
 sensitivity_2 <- zcurve(p = combined_pvalues)
-
-sensitivity_2_results <- summary(sensitivity_2, all = TRUE)
-sensitivity_2_results
-```
-
-Plot the results:
-
-```{r}
-#| echo: false
-#| fig-height: 5
-#| fig-width: 5
-
 plot(sensitivity_2, CI = TRUE, annotation = TRUE, main = NULL)
 ```
 
 ### Sensitivity analysis 3
 
-We conduct a $z$-curve analysis replacing $p$-values reported as $p$ \> 0.05 for $p$ = 0.25
+We conduct a $z$-curve analysis replacing $p$-values reported as $p$ \> 0.05 for $p$ = 0.05
 
 ```{r}
 #| echo: false
 #| warning: false
+#| fig-height: 6
+#| fig-width: 6
 
 # Select studies that reported p as "p > 0.05" and were not included in the z-curve analysis
 ns_imprecise_pvalues <- zcurve_data %>%
@@ -140,18 +123,6 @@ combined_pvalues <- c(
 
 # Conduct zcurve analysis
 sensitivity_3 <- zcurve(p = combined_pvalues)
-
-sensitivity_3_results <- summary(sensitivity_3, all = TRUE)
-sensitivity_3_results
-```
-
-Plot the results:
-
-```{r}
-#| echo: false
-#| fig-height: 5
-#| fig-width: 5
-
 plot(sensitivity_3, CI = TRUE, annotation = TRUE, main = NULL)
 ```
 
@@ -162,6 +133,8 @@ We conduct a $z$-curve analysis replacing $p$-values reported as $p$ \> 0.05 for
 ```{r}
 #| echo: false
 #| warning: false
+#| fig-height: 6
+#| fig-width: 6
 
 # Combine both sets of p-values
 combined_pvalues <- c(
@@ -172,17 +145,5 @@ combined_pvalues <- c(
 
 # Conduct zcurve analysis
 sensitivity_4 <- zcurve(p = combined_pvalues)
-
-sensitivity_4_results <- summary(sensitivity_4, all = TRUE)
-sensitivity_4_results
-```
-
-Plot the results:
-
-```{r}
-#| echo: false
-#| fig-height: 5
-#| fig-width: 5
-
 plot(sensitivity_4, CI = TRUE, annotation = TRUE, main = NULL)
 ```

@@ -47,7 +47,6 @@ replicability_sports_science_zcurve/
 │       ├── 02_intercoder_agreement_function.R  # Functions to assess intercoder agreement
 │       ├── 03_intercoder_agreement.Rmd         # Results of intercoder agreement across variables
 │       └── 04_consolidate_data.R               # Merges columns after resolving disagreements
-|   └── zcurve_analysis.Rmd                     # Includes the the number of studies per journal, descriptive statistics regarding how p-values were reported and the z-curve analysis on the 350 independent p-values and creates Figure 3
 |    
 ├── figures/ 
 |   ├── figure2.png.             # Contains the 6 z-curve plots created using simulated data

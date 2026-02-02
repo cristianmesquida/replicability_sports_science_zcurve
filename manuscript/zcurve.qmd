@@ -2,13 +2,9 @@
 title: "On the replicability of sports and exercise science research: Assessing the prevalence of selection bias and studies with underpowered designs by a z-curve analysis"
 author:
   - name: "Cristian Mesquida¹²"
-    affiliation: "¹ Human-Technology Interaction Group, Eindhoven University of Technology, Eindhoven, The Netherlands"
   - name: "Jennifer Murphy²"
-    affiliation: "² School of Biological, Health and Sports Sciences, Technological University Dublin, Tallaght, Dublin, Ireland "
   - name: "Joe Warne²"
-    affiliation: "² School of Biological, Health and Sports Sciences, Technological University Dublin, Tallaght, Dublin, Ireland"
   - name: "Daniël Lakens¹"
-    affiliation: "¹ Human-Technology Interaction Group, Eindhoven University of Technology, Eindhoven, The Netherlands"
 format: 
  pdf:
     documentclass: article

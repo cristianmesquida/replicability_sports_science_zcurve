@@ -13,7 +13,6 @@ format:
 library(here)
 library(readxl)
 library(dplyr)
-library(kableExtra)
 library(zcurve)
 ```
 

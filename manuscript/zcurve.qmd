@@ -437,7 +437,7 @@ In the preregistration, it was stated that studies reporting absolute *p*-values
 
 ### Statistical analysis and software
 
-All simulations and $z$-curve analyses were performed in R (`r version$version.string`; R Core Team @Rcoreteam) using the *zcurve 2.0* package [@zcurve_pkg]. R packages used to produce this manuscript include *dplyr* [@dplyr_pkg], *ggplot2* [@ggplot2_pkg], *here* [@here], *irr* [@irr]*, knitr* [@knitr_pkg], *purrr* [@purrr_pkg] and *readxl* [@readxl_pkg]. The manuscript was written in *Quarto* [@quarto_pkg]. Data and analysis scripts related to this study are publicly available on the Open Science Framework and can be found at <https://doi.org/10.17605/OSF.IO/SFBVA>.
+All simulations and $z$-curve analyses were performed in R (`r version$version.string`; R Core Team @Rcoreteam) using the *zcurve 2.0* package [@zcurve_pkg]. R packages used to produce this manuscript and the accompanying sensitivity analyses include *DescTools* [@desctools_pkg], *dplyr* [@dplyr_pkg], *ggplot2* [@ggplot2_pkg], *here* [@here], *irr* [@irr], *kableExtra* [@kableextra_pkg]*, knitr* [@knitr_pkg], *lpSolve* [@lpsolve_pkg], *magrittr* [@magrittr_pkg], *purrr* [@purrr_pkg], *readxl* [@readxl_pkg] and *writexl* [@writexl_pkg]. The manuscript was written in *Quarto* [@quarto_pkg]. Data and analysis scripts related to this study are publicly available on the Open Science Framework and can be found at <https://doi.org/10.17605/OSF.IO/SFBVA>.
 
 ```{r}
 #| echo: false

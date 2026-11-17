@@ -21,7 +21,7 @@ library(zcurve)
 #| echo: false
 
 # load data
-zcurve_data <- read_xlsx(here("data", "zcurve_data.xlsx"), sheet = "Sheet1")
+zcurve_data <- read_xlsx(here("data", "processed", "zcurve_data.xlsx"), sheet = "Sheet1")
 ```
 
 ```{r}

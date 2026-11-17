@@ -13,7 +13,7 @@ library(here)
 library(writexl)
 
 ## disagreements3 (double coded studies)
-file_path <- "data/disagreements3.xlsx"
+file_path <- here("data", "disagreements", "disagreements3.xlsx")
 
 # File path
 sheets <- excel_sheets(file_path)
@@ -53,7 +53,7 @@ final_disagreements3 <- as.data.frame(decision_columns)
 ####---------------------------------------------------------------------------
 
 ## disagreements2 (triple coded studies)
-file_path <- "data/disagreements2.xlsx"  
+file_path <- here("data", "disagreements", "disagreements2.xlsx")
 
 
 # Get all sheet names
@@ -144,11 +144,11 @@ colnames(processed_data) <- c("journal",
 
 
 # Save newly created data set as "processed_data.xlsx"
-write_xlsx(processed_data, here("data", "processed_data.xlsx"))
+write_xlsx(processed_data, here("data", "processed", "processed_data.xlsx"))
 
 
 ## 2) Create a file for "zcurve analysis" paper
-read_xlsx(here("data","processed_data.xlsx")) %>% 
+read_xlsx(here("data", "processed", "processed_data.xlsx")) %>%
   select(journal, 
          study_title, 
          a_priori_power_statement, 
@@ -157,5 +157,5 @@ read_xlsx(here("data","processed_data.xlsx")) %>%
          support_hypothesis,
          type_effect,
          statistical_result) %>% 
-  write_xlsx(here("data", "consolidated_data_zcurve.xlsx"))
+  write_xlsx(here("data", "processed", "consolidated_data_zcurve.xlsx"))
 

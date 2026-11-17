@@ -11,7 +11,7 @@ library(here)
 library(dplyr)
 
 # Read file where all data from 350 studies was recorded
-data <- read_xlsx(here("data", "raw_data.xlsx")) 
+data <- read_xlsx(here("data", "raw", "raw_data.xlsx"))
 data <- data[, -ncol(data)] #remove last column
 
 
@@ -109,7 +109,7 @@ for (i in seq_along(variable_dataframes3)) {
 test_disagreements <- variable_dataframes3[[3]] #test output
 
 # Store data in a file called "disagreements3.xlsx"
-write_xlsx(variable_dataframes3, here("data", "disagreements3.xlsx"))
+write_xlsx(variable_dataframes3, here("data", "disagreements", "disagreements3.xlsx"))
 
 
 
@@ -126,5 +126,5 @@ for (i in seq_along(variable_dataframes2)) {
 test_disagreements2 <- variable_dataframes2[[3]] #test output
 
 # Store data in a file called "disagreements2.xlsx"
-write_xlsx(variable_dataframes2, here("data", "disagreements2.xlsx"))
+write_xlsx(variable_dataframes2, here("data", "disagreements", "disagreements2.xlsx"))
 

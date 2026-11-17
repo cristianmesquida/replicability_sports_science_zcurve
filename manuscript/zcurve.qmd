@@ -1,10 +1,10 @@
 ---
 title: "On the replicability of sports and exercise science research: Assessing the prevalence of selection bias and studies with underpowered designs by a z-curve analysis"
 author:
-  - name: "Cristian Mesquida¹²"
-  - name: "Jennifer Murphy²"
-  - name: "Joe Warne²"
-  - name: "Daniël Lakens¹"
+  - name: "Cristian Mesquida\\textsuperscript{1,2,*}"
+  - name: "Jennifer Murphy\\textsuperscript{2}"
+  - name: "Joe Warne\\textsuperscript{2}"
+  - name: "Daniël Lakens\\textsuperscript{1}"
 format: 
  pdf:
     documentclass: article
@@ -13,13 +13,9 @@ bibliography: references.bib
 csl: apa.csl
 ---
 
-#### Affiliation
+\textsuperscript{1} Human-Technology Interaction Group, Eindhoven University of Technology, Eindhoven, The Netherlands
 
-¹ Human-Technology Interaction Group, Eindhoven University of Technology, Eindhoven, The Netherlands
-
-² School of Biological, Health and Sports Sciences, Technological University Dublin, Tallaght, Dublin, Ireland
-
-#### ORCIDs
+\textsuperscript{2} School of Biological, Health and Sports Sciences, Technological University Dublin, Tallaght, Dublin, Ireland
 
 Cristian Mesquida – 0000-0002-1542-8355
 
@@ -29,9 +25,7 @@ Joe Warne – 0000-0002-4359-8132
 
 Daniël Lakens – 0000-0002-0247-239X
 
-#### Correspondence
-
-Cristian Mesquida; Human-Technology Interaction Group, Eindhoven University of Technology, The Netherlands, c.mesquida.caldentey\@tue.nl
+\textsuperscript{*}Correspondence: c.mesquida.caldentey\@tue.nl
 
 \pagebreak
 
@@ -153,7 +147,7 @@ n_high_power <- sum(primary_zcurve$data > z_score)
 high_power <- round(sum(primary_zcurve$data > 2.801582) / length(primary_zcurve$data)*100, 0)
 ```
 
-#### Abstract
+## Abstract
 
 The Sports Science Replication Project has raised concerns about the replicability of published research. Low replication rates may result from an excess of significant findings caused by selection bias, where studies reporting significant findings are more likely to be published, inflating the proportion of significant findings in the literature, while the statistical power remains low. To date, no study has systematically assessed both selection bias and average statistical power in the same set of studies in the field. One method to assess selection bias and average statistical power is the $z$-curve method. In this study, we manually extracted `r nrow(zcurve_data)` independent *p*-values corresponding to the hypothesis tested in `r nrow(zcurve_data)` studies published across 10 applied sports and exercise science journals. After exclusions, a $z$-curve analysis was performed on `r nrow(zcurve_data) - excluded$excluded[1]` independent *p*-values. The estimate of the Observed Discovery Rate (`r round(primary_zcurve$N_sig/primary_zcurve$N_obs, 2)*100`%) is larger than the upper bound of the 95% confidence intervals (CI) of the Expected Discovery Rate of \[`r round(results$coefficients[2, 2], 2)*100`; `r round(results$coefficients[2, 3], 2)*100`%\] indicating strong selection bias in the literature. The average statistical power is `r round(results$coefficients[2, 1], 2)*100`% 95% CI \[`r round(results$coefficients[2, 2], 2)*100`; `r round(results$coefficients[2, 3], 2)*100`%\], and only `r high_power`% of studies are estimated to have been designed with high power ($\geq$ 80%). The Expected Replication Rate was `r round(results$coefficients[1, 1], 2)*100`% 95% CI \[`r round(results$coefficients[1, 2], 2)*100`; `r round(results$coefficients[1, 3], 2)*100`%\], indicating that only `r round(results$coefficients[1, 1], 2)*100`% of direct replications with the same sample size should be expected to replicate. Selection bias, combined with low average statistical power, is likely to result in a body of literature characterized by inflated effect sizes, a high proportion of type I and type II errors, and therefore low replicability. Addressing these issues requires a collective effort to build a more informative and reliable knowledge base.
 
@@ -500,9 +494,7 @@ writeLines(capture.output(sessionInfo()), "session-info.txt")
 ::: {#refs}
 :::
 
-\pagebreak
-
-#### **Contributions**
+## **Contributions**
 
 - Contributed to conception and design: CMC, JW, DL
 - Contributed to data acquisition: CMC, JM, JW
@@ -510,14 +502,14 @@ writeLines(capture.output(sessionInfo()), "session-info.txt")
 - Drafted and/or revised the article: CMC, JM, JW, DL
 - Approved the submitted version for publication: CMC, JM, JW, DL
 
-#### **Acknowledgements**
+## **Acknowledgements**
 
 The authors would like to thank Eline Ensinck who contributed to the data curation of this manuscript.
 
-#### **Funding Information**
+## **Funding Information**
 
 Cristian Mesquida was supported by the Ammodo Science Award 2023 for Social Sciences. Jennifer Murphy was a recipient of the Irish Research Council’s Government of Ireland Postgraduate Scholarship Programme (project ID GOIPG/2020/1155).
 
-#### **Data Accessibility Statement**
+## **Data Accessibility Statement**
 
 Raw data, code and other supplementary materials are available at <https://doi.org/10.17605/OSF.IO/D7WYC>

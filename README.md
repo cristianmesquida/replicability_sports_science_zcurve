@@ -8,11 +8,10 @@ replicability_sports_science_zcurve/
 ├── preprint.pdf            # Preprint of the study
 |
 ├── manuscript/ 
-│   ├── zcurve.qmd                          # Quarto document to fully reproduce the manuscript (renders to zcurve.pdf; not committed)
-|   ├── zcurve_sensitivity_analysis.qmd     # Quarto document to fully reproduce the sensitivity analyses
-│   ├── zcurve_sensitivity_analysis.pdf     # PDF document containing the results of the sensitivity analyses
-|   ├── references.bib                      # Bib file containing the references used in the manuscript
-|   └── session-info.txt                    # Snapshot of the R session used to render zcurve.qmd
+│   ├── zcurve.qmd                    # Quarto document to fully reproduce the manuscript (renders to zcurve.pdf)
+│   ├── zcurve.pdf                    # Rendered output from zcurve.qmd
+|   ├── references.bib                # Bib file containing the references used in the manuscript
+|   └── session-info.txt              # Snapshot of the R session used to render zcurve.qmd
 |
 ├── materials/ 
 │   ├── supplementary_information.pdf # Formulas to recompute p-values
@@ -53,6 +52,10 @@ replicability_sports_science_zcurve/
 |   ├── figure2d.png # Figure 2d: publication bias and null effect
 |   ├── figure2e.png # Figure 2e: mild optional stopping
 |   └── figure2f.png # Figure 2f: mixed
+|
+├── sensitivity_analysis/ 
+|   ├── zcurve_sensitivity_analysis.qmd     # Quarto document to fully reproduce the sensitivity analyses
+└── └── zcurve_sensitivity_analysis.pdf     # Rendered outcome from zcurve_sensitivity_analysis.qmd
 ```
 
 # Reproducing the results

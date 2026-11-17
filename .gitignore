@@ -11,3 +11,6 @@ manuscript/trackdown.R
 response_zcurve_reviews.docx
 response_zcurve_reviews.pdf
 manuscript/zcurve.docx
+
+/.quarto/
+**/*.quarto_ipynb

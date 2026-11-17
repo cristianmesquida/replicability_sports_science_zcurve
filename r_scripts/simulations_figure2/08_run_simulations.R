@@ -23,7 +23,7 @@ scenarios <- list(
   null_effect = null_effect$p_value,
   publication_bias = bias,
   publication_bias_and_null_effect = bias_null_effect,
-  mild_optional_stopping = p,
+  mild_optional_stopping = p_mild_optional_stopping,
   mixed = mixed
 )
 

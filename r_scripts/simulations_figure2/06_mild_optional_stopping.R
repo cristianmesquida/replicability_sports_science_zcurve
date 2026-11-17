@@ -38,5 +38,10 @@ for (i in 1:nsims) {
                  matp[i,looks], matp[i,which(matp[i,] < alphalevel)])
 }
 
+# Export under a unique name: 07_mixed.R also uses a variable called `p` for its own
+# (unrelated) simulation, and both scripts get source()d into the same environment by
+# 08_run_simulations.R, so the bare name `p` is not safe to read back after sourcing all scripts.
+p_mild_optional_stopping <- p
+
 
 

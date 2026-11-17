@@ -3,10 +3,13 @@
 ## 2) simulate studies in the presence of publication bias
 ## 3) simulate mild optional stopping
 
-# For reproducibility purposes
-set.seed(1234) 
+# Load functions to simulate data (run_simulation())
+source(here::here("r_scripts", "simulations_figure2", "01_functions.R"))
 
-## Simulate 300 p-values from studies with high-, medium- and low-power designs 
+# For reproducibility purposes
+set.seed(1234)
+
+## Simulate 300 p-values from studies with high-, medium- and low-power designs
 # to detect a Cohen's ds of 0.3 and and studies investigating a null effect
 high_power <- run_simulation(n = 139, mean_diff = 0.3, sd = 1, nsims = 100)
 medium_power <- run_simulation(n = 50, mean_diff = 0.3, sd = 1, nsims = 100)

@@ -74,14 +74,20 @@ results_df <- do.call(rbind, lapply(zcurve_list, extract_metrics))
 results_df$Scenario <- sim_conditions
 results_df <- results_df[, c("Scenario", "ERR", "EDR", "Soric FDR")]
 
-# Manually report ODR values (estimate, lower CI, upper CI) as numeric vectors
-odr_values <- list(
-  "1" = c(0.82, 0.77, 0.86),
-  "2" = c(0.04, 0.02, 0.07),
-  "3" = c(0.30, 0.25, 0.36),
-  "4" = c(0.33, 0.27, 0.38),
-  "5" = c(0.14, 0.10, 0.19),
-  "6" = c(0.62, 0.57, 0.68)
+# Compute ODR (estimate, lower CI, upper CI) directly from the simulated p-values,
+# using an exact (Clopper-Pearson) binomial CI, so this always matches the data
+# actually used to fit the z-curves above instead of being hand-typed and able to
+# drift out of sync with `scenarios`.
+compute_odr <- function(p_values) {
+  n_sig <- sum(p_values < 0.05)
+  n_obs <- length(p_values)
+  ci <- binom.test(n_sig, n_obs)$conf.int
+  c(n_sig / n_obs, ci[1], ci[2])
+}
+
+odr_values <- setNames(
+  lapply(scenarios, compute_odr),
+  sim_conditions
 )
 
 # Create a format function

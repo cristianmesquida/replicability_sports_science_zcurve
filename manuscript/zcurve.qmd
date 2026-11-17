@@ -47,6 +47,7 @@ library(here)
 library(zcurve)
 library(ggplot2)
 library(knitr)
+library(kableExtra)
 ```
 
 ```{r}
@@ -266,7 +267,7 @@ mfdr <- round(((1 - (edr/100)) / (edr/100)) * (alpha / (1 - alpha)), 3)
 | Expected Replication Rate (ERR) | The ERR is an estimate of the average power of studies reporting a significant *p*-value. This estimate reflects the probability of observing the same significant effect if the study were to be replicated using the same sample size and following the same procedures. Using the prior example, if the study with a 90% power was the only one that yielded a significant finding, then the ERR would be 90%. Thus, the higher the ERR, the more likely it is that the studies that reported a significant effect would replicate. |
 | Maximum False Discovery Risk (MFDR) | The MFDR is an estimate of the maximum percentage of significant findings that are type I errors. Importantly, the MFDR does not aim to estimate the actual type I error rate among significant $p$-values. Rather, it provides an estimate of the worst-case scenario with the highest possible proportion of type I errors. If a literature has a low MFDR, readers can be assured that most significant findings are true effects. The MFDR is estimated using the Expected Discovery Rate and $\alpha$, and it is computed as: MFDR = ((1 - $EDR$) / $EDR$) $\times$ ($\alpha$ / (1 - $\alpha$)). For example, with an EDR of `r (df$power[1] + df$power[2] + df$power[3]) / nrow(df)`% and $\alpha$ = 0.05, the MFDR is `r mfdr`, which is close to the nominal $\alpha$ set to 0.05. |
 
-: Description of the 4 quantities estimated by $z$-curve. {#tbl-tbl1.1}
+: Description of the 4 quantities estimated by $z$-curve. {#tbl-tbl1.1 tbl-colwidths="[20,80]"}
 
 **Simulations**
 
@@ -312,10 +313,18 @@ kable(
   table2,
   align = "l",
   booktabs = TRUE
-)
+) |>
+  footnote(
+    general = paste(
+      "1 = 80% power; 2 = Null effect;",
+      "3 = Publication bias and 20% power;",
+      "4 = Publication bias and null effect;",
+      "5 = Mild optional stopping; 6 = Mixed."
+    ),
+    general_title = "Note: ",
+    threeparttable = TRUE
+  )
 ```
-
-1 = 80% power; 2 = Null effect, 3 = Publication bias and 20% power; 4 = Publication bias and null effect; 5 = Mild optional stopping; 6 = Mixed
 
 The results of these simulations illustrate several key points. In the absence of bias, when studies are designed with 80% power, the average power of studies matches the Observed Discovery Rate, whose estimate lies within the 95% CI of the Expected Discovery Rate. The Maximum False Discovery Risk is close to $\alpha$ because studies are designed with high power. When studies investigate a null effect, the Observed Discovery Rate corresponds to $\alpha$, and the Maximum False Discovery Risk is 1, as all significant findings are type I errors. In the presence of publication bias and studies with 20% power, the Observed Discovery Rate becomes inflated and exceeds the upper limit of the Expected Discovery Rate 95% CI. This discrepancy indicates bias in the set of studies. Furthermore, when the Expected Discovery Rate does not exclude 5%, it suggests that all observed effects may be type I errors. Under a true effect size of zero combined with publication bias, the Observed Discovery Rate becomes substantially larger than $\alpha$. In the fifth scenario, where optional stopping was simulated under a true effect size of zero, the Observed Discovery is again inflated beyond $\alpha$. The fact that the Observed Discovery Rate is higher than the upper bound of the Expected Discovery Rate 95% CI further signals bias. It is important to note, however, that although the $z$-curve method can be used to assess publication bias, it is not developed to identify $p$-hacking, and the $z$-curve method might not be able to distinguish between publication bias and $p$-hacking. In this scenario, the Expected Discovery Rate is 5% which corresponds to the expected type I error under the null distribution. When the Expected Discovery Rate does not exclude 5%, it suggests that all effects might be, in fact, null effects. Additionally, the Maximum False Discovery Risk is 1, in line with the fact that all significant findings are type I errors. Finally, in the mixed scenario, the Observed Discovery Rate exceeds the upper bound of the Expected Discovery Rate 95% CI, indicating the presence of bias, and underscoring the limitation that the $z$-curve method cannot differentiate between publication bias and $p$-hacking.
 
@@ -484,10 +493,14 @@ Overall, our findings indicate substantial selection bias in sports and exercise
 writeLines(capture.output(sessionInfo()), "session-info.txt")
 ```
 
+\pagebreak
+
 ## References
 
 ::: {#refs}
 :::
+
+\pagebreak
 
 #### **Contributions**
 

@@ -5,9 +5,9 @@ This repository contains all materials, data, and code required to reproduce the
 ```
 replicability_sports_science_zcurve/
 ├── preregistration_OSF.pdf # Preregistration document
+├── preprint.pdf            # Preprint of the study
 |
 ├── manuscript/ 
-│   ├── preprint.pdf                        # Preprint of the study
 │   ├── zcurve.qmd                          # Quarto document to fully reproduce the manuscript (renders to zcurve.pdf; not committed)
 |   ├── zcurve_sensitivity_analysis.qmd     # Quarto document to fully reproduce the sensitivity analyses
 │   ├── zcurve_sensitivity_analysis.pdf     # PDF document containing the results of the sensitivity analyses

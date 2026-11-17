@@ -321,7 +321,7 @@ kable(
       "4 = Publication bias and null effect;",
       "5 = Mild optional stopping; 6 = Mixed."
     ),
-    general_title = "Note: ",
+    general_title = "",
     threeparttable = TRUE
   )
 ```

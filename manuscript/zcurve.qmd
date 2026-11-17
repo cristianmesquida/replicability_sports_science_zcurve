@@ -456,6 +456,10 @@ The point estimate of the File-Drawer Ratio was `r round(results$coefficients[4,
 #| fig-height: 5
 #| fig-cap: "Distribution of 269 $z$-scores over the interval 0-6. The vertical red line refers to a $z$-score of 1.96, the critical value for statistical significance ($\\alpha = 0.05$). The dark blue line is the density distribution for the inputted *p*-values (represented in the histogram as $z$-scores). The dotted lines represent the 95% CI for the density distribution. Range represents the minimum and maximum values of $z$-scores used to fit the $z$-curve."
 
+png(here("output", "figure4.png"), width = 6, height = 5, units = "in", res = 300)
+plot(primary_zcurve, CI = TRUE, annotation = TRUE, main = "")
+dev.off()
+
 plot(primary_zcurve, CI = TRUE, annotation = TRUE, main = "")
 ```
 

@@ -10,7 +10,6 @@ format:
 #| warning: false
 
 # load packages
-library(magrittr)
 library(here)
 library(readxl)
 library(dplyr)
@@ -28,10 +27,10 @@ zcurve_data <- read_xlsx("../data/zcurve_data.xlsx", sheet = "Sheet1")
 ```{r}
 #| echo: false
 
-pvalues <- zcurve_data %>%
-  filter(include == "yes" & !is.na(zcurve_pvalue)) %>%
-  select(zcurve_pvalue) %>%
-  pull() %>%
+pvalues <- zcurve_data |>
+  filter(include == "yes" & !is.na(zcurve_pvalue)) |>
+  select(zcurve_pvalue) |>
+  pull() |>
   as.numeric()
 ```
 
@@ -49,15 +48,15 @@ We conduct a $z$-curve analysis excluding $p$-values that could be not recompute
 #| fig-height: 6
 #| fig-width: 6
 
-sensitivity_1 <- zcurve_data %>%
+sensitivity_1 <- zcurve_data |>
   # Select studies that were included + no missing cases
-  filter(include == "yes" & !is.na(zcurve_pvalue)) %>%
+  filter(include == "yes" & !is.na(zcurve_pvalue)) |>
   # Exclude studies for which p-values were imputed
   filter(!reason_exclusion %in% c("p < 0.001", 
                                   "p < 0.005",
-                                  "p < 0.003")) %>%
-  select(zcurve_pvalue) %>%
-  pull() %>%
+                                  "p < 0.003")) |>
+  select(zcurve_pvalue) |>
+  pull() |>
   as.numeric()
 
 sensitivity_1 <- zcurve(p = sensitivity_1)
@@ -75,12 +74,12 @@ We conduct a $z$-curve analysis replacing $p$-values reported as $p$ \< 0.05 for
 #| fig-width: 6
 
 # Select studies that reported p as "p < 0.05" and were not included in the z-curve analysis
-s_imprecise_pvalues <- zcurve_data %>%
-  filter(include == "no" & pvalue == "p < 0.05") %>%
+s_imprecise_pvalues <- zcurve_data |>
+  filter(include == "no" & pvalue == "p < 0.05") |>
   select(include, pvalue, zcurve_pvalue)
 
 # Convert "p < 0.05" to 0.25
-s_imprecise_pvalues <- s_imprecise_pvalues %>%
+s_imprecise_pvalues <- s_imprecise_pvalues |>
   mutate(zcurve_pvalue = case_when(include == "no" & pvalue == "p < 0.05" ~ 0.025,
                              TRUE ~ as.numeric(zcurve_pvalue))) 
 
@@ -106,12 +105,12 @@ We conduct a $z$-curve analysis replacing $p$-values reported as $p$ \> 0.05 for
 #| fig-width: 6
 
 # Select studies that reported p as "p > 0.05" and were not included in the z-curve analysis
-ns_imprecise_pvalues <- zcurve_data %>%
-  filter(include == "no" & pvalue == "p > 0.05") %>%
+ns_imprecise_pvalues <- zcurve_data |>
+  filter(include == "no" & pvalue == "p > 0.05") |>
   select(include, pvalue, zcurve_pvalue)
 
 # Convert "p > 0.05" to 0.05
-ns_imprecise_pvalues <- ns_imprecise_pvalues %>%
+ns_imprecise_pvalues <- ns_imprecise_pvalues |>
   mutate(zcurve_pvalue = case_when(include == "no" & pvalue == "p > 0.05" ~ 0.05,
                              TRUE ~ as.numeric(zcurve_pvalue)))
 

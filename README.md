@@ -64,7 +64,7 @@ All commands below assume the working directory is the repository root (e.g. ope
 ```r
 install.packages(c(
   "readxl", "writexl", "dplyr", "here", "zcurve", "ggplot2", "knitr",
-  "purrr", "irr", "DescTools", "lpSolve", "magrittr", "kableExtra"
+  "purrr", "irr", "DescTools", "lpSolve", "kableExtra"
 ))
 ```
 

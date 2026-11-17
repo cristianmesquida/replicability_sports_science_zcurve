@@ -285,12 +285,12 @@ In the first scenario (@fig-fig1.2-1; “80% power”), *p*-values were simulate
 
 include_graphics(
   c(
-  here("figures", "figure2a.png"),
-  here("figures", "figure2b.png"),
-  here("figures", "figure2c.png"),
-  here("figures", "figure2d.png"),
-  here("figures", "figure2e.png"),
-  here("figures", "figure2f.png")
+  here("output", "figure2a.png"),
+  here("output", "figure2b.png"),
+  here("output", "figure2c.png"),
+  here("output", "figure2d.png"),
+  here("output", "figure2e.png"),
+  here("output", "figure2f.png")
   )
 )
 ```
@@ -301,7 +301,7 @@ include_graphics(
 #| label: tbl-tbl1.2
 #| tbl-cap: "Output estimates [95% CI] for the $z$-curves conducted under six scenarios."
 
-table2 <- readRDS(here("data", "table2.rds"))
+table2 <- readRDS(here("output", "table2.rds"))
 
 kable(
   table2,

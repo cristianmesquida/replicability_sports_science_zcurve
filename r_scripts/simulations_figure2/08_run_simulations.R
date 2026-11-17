@@ -28,4 +28,4 @@ scenarios <- list(
 )
 
 # Store simulated data for efficiency
-saveRDS(scenarios, here("data", "simulations.RDS"))
+saveRDS(scenarios, here("output", "simulations.RDS"))

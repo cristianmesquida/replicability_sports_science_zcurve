@@ -6,7 +6,7 @@ library(zcurve)
 library(purrr)
 
 # Load data
-scenarios <- readRDS("data/simulations.RDS")
+scenarios <- readRDS(here("output", "simulations.RDS"))
 
 # Conduct a z-curve on each simulated scenario
 zcurve_list <- map(
@@ -100,5 +100,5 @@ results_df$ODR <- sapply(results_df$Scenario, function(scn) format_odr(odr_value
 results_df <- results_df[, c("Scenario", "ODR", "ERR", "EDR", "Soric FDR")]
 
 # Save results
-saveRDS(results_df, "data/table2.rds")
+saveRDS(results_df, here("output", "table2.rds"))
 

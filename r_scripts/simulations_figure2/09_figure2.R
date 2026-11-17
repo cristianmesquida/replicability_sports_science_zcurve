@@ -6,7 +6,7 @@ library(zcurve)
 library(purrr)
 
 # Load data 
-scenarios <- readRDS("data/simulations.RDS")
+scenarios <- readRDS(here("output", "simulations.RDS"))
 
 # Conduct a z-curve on each simulated scenario
 zcurve_list <- map(
@@ -47,7 +47,7 @@ files <- c(
 
 # Use walk2() to itinerate the process of saving each plot as a .png file
 walk2(zcurve_list, files, ~ {
-  png(here("figures", .y), width = 900, height = 900, res = 200)
+  png(here("output", .y), width = 900, height = 900, res = 200)
   plot(
     .x,
     CI = TRUE,

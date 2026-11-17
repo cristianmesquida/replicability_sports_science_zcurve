@@ -31,44 +31,44 @@ selected_sheets <- c("Sheet5", "Sheet8", "Sheet11", "Sheet12", "Sheet13",
 
 # Create a function to assess inter-coder agreement between 3 coders
 calculate_kappa3_from_excel <- function(file_path) {
-  sheet_names <- excel_sheets(file_path)
   results <- data.frame(variable = character(),
                         kappa_estimate = numeric(),
                         stringsAsFactors = FALSE)
- 
-  for (sheet in selected_sheets) { 
-    coders_responses <- read_excel(file_path, sheet = sheet) %>%
-                   select(V1, V2, V3) # this refers to each one of the three coders
+
+  for (sheet in selected_sheets) {
+    raw_sheet <- as.data.frame(read_excel(file_path, sheet = sheet))
+    coders_responses <- raw_sheet[, seq_len(min(3, ncol(raw_sheet))), drop = FALSE]
+
     kappa_result <- kappam.fleiss(coders_responses)
     kappa_estimate <- round(kappa_result$value, 2)
-    results <- rbind(results, data.frame(variable = sheet, 
+    results <- rbind(results, data.frame(variable = sheet,
                                          fleiss_kappa = kappa_estimate))
   }
-  
+
   results$variable <- variable_names
-  
+
   return(results)
 }
 
 
 # Create the function to assess inter-coder agreement between 2 coders
 calculate_kappa2_from_excel <- function(file_path) {
-  sheet_names <- excel_sheets(file_path)
   results <- data.frame(variable = character(),
                         kappa_estimate = numeric(),
                         stringsAsFactors = FALSE)
-  
+
   for (sheet in selected_sheets) {
-    coders_responses <- read_excel(file_path, sheet = sheet) %>%
-      select(V1, V2) # this refers to each one of the two coders
+    raw_sheet <- as.data.frame(read_excel(file_path, sheet = sheet))
+    coders_responses <- raw_sheet[, seq_len(min(2, ncol(raw_sheet))), drop = FALSE]
+
     kappa_result <- kappa2(coders_responses)
     kappa_estimate <- round(kappa_result$value, 2)
-    results <- rbind(results, data.frame(variable = sheet, 
+    results <- rbind(results, data.frame(variable = sheet,
                                          cohen_kappa = kappa_estimate))
   }
-  
- results$variable <- variable_names
-  
+
+  results$variable <- variable_names
+
   return(results)
 }
 

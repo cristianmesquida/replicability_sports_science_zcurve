@@ -47,7 +47,7 @@ files <- c(
 
 # Use walk2() to itinerate the process of saving each plot as a .png file
 walk2(zcurve_list, files, ~ {
-  png(here("figures", "individual_figures2", .y), width = 900, height = 900, res = 200)
+  png(here("figures", .y), width = 900, height = 900, res = 200)
   plot(
     .x,
     CI = TRUE,
@@ -56,35 +56,5 @@ walk2(zcurve_list, files, ~ {
   )
   dev.off()
 })
-
-
-# Same as above but the figure formatting according to Sports Medicine
-png(here("figures", "figure2_sports_medicine.png"),
-    width = 3000, height = 3000, res = 300)
-
-par(mfrow = c(3, 2), mar = c(5, 4, 4, 2) + 0.1)
-
-zcurve_list <- list(
-  zcurve_evidential_value,
-  zcurve_null_effect,
-  zcurve_publication_bias,
-  zcurve_publication_bias_and_null_effect,
-  zcurve_mild_optional_stopping,
-  zcurve_mixed
-)
-
-labels <- letters[1:6]
-
-walk2(zcurve_list, labels, ~ {
-  plot(
-    .x,
-    CI = TRUE,
-    annotation = FALSE,
-    main = ""
-  )
-  mtext(.y, side = 3, adj = 0, line = 1.5)
-})
-
-dev.off()
 
 

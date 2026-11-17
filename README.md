@@ -49,6 +49,10 @@ replicability_sports_science_zcurve/
 │       └── 04_consolidate_data.R               # Merges columns after resolving disagreements
 |    
 ├── figures/ 
-|   ├── individual_figures2/           # The 6 individual z-curve panels (Figure 2a-f) used in the manuscript
-|   └── figure2_sports_medicine.png    # Figure 2 as a single composite image, formatted for journal submission
+|   ├── figure2a.png # Figure 2a: ~80% power
+|   ├── figure2b.png # Figure 2b: null effect
+|   ├── figure2c.png # Figure 2c: publication bias and ~20% power
+|   ├── figure2d.png # Figure 2d: publication bias and null effect
+|   ├── figure2e.png # Figure 2e: mild optional stopping
+|   └── figure2f.png # Figure 2f: mixed
 ```

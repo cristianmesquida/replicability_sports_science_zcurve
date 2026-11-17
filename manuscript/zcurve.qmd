@@ -301,12 +301,12 @@ In the first scenario (@fig-fig1.2-1; “80% power”), *p*-values were simulate
 
 include_graphics(
   c(
-  "../figures/individual_figures2/figure2a.png",
-  "../figures/individual_figures2/figure2b.png",
-  "../figures/individual_figures2/figure2c.png",
-  "../figures/individual_figures2/figure2d.png",
-  "../figures/individual_figures2/figure2e.png",
-  "../figures/individual_figures2/figure2f.png"
+  "../figures/figure2a.png",
+  "../figures/figure2b.png",
+  "../figures/figure2c.png",
+  "../figures/figure2d.png",
+  "../figures/figure2e.png",
+  "../figures/figure2f.png"
   )
 )
 ```

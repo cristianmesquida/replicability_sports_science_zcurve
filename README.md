@@ -49,7 +49,6 @@ replicability_sports_science_zcurve/
 │       └── 04_consolidate_data.R               # Merges columns after resolving disagreements
 |    
 ├── figures/ 
-|   ├── figure2.png.             # Contains the 6 z-curve plots created using simulated data
-|   ├── figure3.png.             # Contains the z-curve plot of the 350 independent p-values
-└── └── secondary_zcurve.png.    # Contains the z-curve plot of the z-curve analysis conducted as a sensitivity analysis
+|   ├── individual_figures2/           # The 6 individual z-curve panels (Figure 2a-f) used in the manuscript
+|   └── figure2_sports_medicine.png    # Figure 2 as a single composite image, formatted for journal submission
 ```

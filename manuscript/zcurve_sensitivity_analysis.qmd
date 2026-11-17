@@ -110,10 +110,10 @@ ns_imprecise_pvalues <- zcurve_data %>%
   filter(include == "no" & pvalue == "p > 0.05") %>%
   select(include, pvalue, zcurve_pvalue)
 
-# Convert "p > 0.05" to 0.5
+# Convert "p > 0.05" to 0.05
 ns_imprecise_pvalues <- ns_imprecise_pvalues %>%
   mutate(zcurve_pvalue = case_when(include == "no" & pvalue == "p > 0.05" ~ 0.05,
-                             TRUE ~ as.numeric(zcurve_pvalue))) 
+                             TRUE ~ as.numeric(zcurve_pvalue)))
 
 # Combine both sets of p-values
 combined_pvalues <- c(
@@ -128,7 +128,7 @@ plot(sensitivity_3, CI = TRUE, annotation = TRUE, main = NULL)
 
 ### Sensitivity analysis 4
 
-We conduct a $z$-curve analysis replacing $p$-values reported as $p$ \> 0.05 for $p$ = 0.25 and replacing $p$-values reported as $p$ \< 0.05 for 0.05
+We conduct a $z$-curve analysis combining the imputed values used in Sensitivity analyses 2 and 3, replacing $p$-values reported as $p$ \< 0.05 with $p$ = 0.025 and replacing $p$-values reported as $p$ \> 0.05 with $p$ = 0.05
 
 ```{r}
 #| echo: false

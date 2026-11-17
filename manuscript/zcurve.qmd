@@ -101,10 +101,10 @@ s_imprecise_pvalues <- zcurve_data %>%
   filter(include == "no" & pvalue == "p < 0.05") %>%
   select(include, pvalue, zcurve_pvalue)
 
-# Convert "p < 0.05" to 0.25
+# Convert "p < 0.05" to 0.025
 s_imprecise_pvalues <- s_imprecise_pvalues %>%
-  mutate(zcurve_pvalue = case_when(include == "no" & pvalue == "p < 0.05" ~ 0.25,
-                             TRUE ~ as.numeric(zcurve_pvalue))) 
+  mutate(zcurve_pvalue = case_when(include == "no" & pvalue == "p < 0.05" ~ 0.025,
+                             TRUE ~ as.numeric(zcurve_pvalue)))
 ```
 
 ```{r}
@@ -115,24 +115,37 @@ ns_imprecise_pvalues <- zcurve_data %>%
   filter(include == "no" & pvalue == "p > 0.05") %>%
   select(include, pvalue, zcurve_pvalue)
 
-# Convert "p > 0.05" to 0.5
+# Convert "p > 0.05" to 0.05
 ns_imprecise_pvalues <- ns_imprecise_pvalues %>%
   mutate(zcurve_pvalue = case_when(include == "no" & pvalue == "p > 0.05" ~ 0.05,
-                             TRUE ~ as.numeric(zcurve_pvalue))) 
+                             TRUE ~ as.numeric(zcurve_pvalue)))
 ```
 
 ```{r}
 #| echo: false 
 
-included_as_exact <- zcurve_data %>% 
-  filter(include == "yes") %>% 
-  group_by(reason_exclusion) %>% 
-  summarise(number = n(), 
+included_as_exact <- zcurve_data %>%
+  filter(include == "yes") %>%
+  group_by(reason_exclusion) %>%
+  summarise(number = n(),
             proportion = round(number / nrow(zcurve_data) * 100, 1))
 ```
 
 ```{r}
-#| echo: false 
+#| echo: false
+
+# Look up a count/proportion by category label instead of row position. Both
+# excluded_category and included_as_exact are grouped with dplyr::group_by(),
+# whose rows happen to come out in alphabetical order of reason_exclusion; the
+# inline text below used to index them as [1], [2], ... which would silently
+# report the wrong number next to the wrong label if a category were ever
+# renamed, reordered, or added.
+get_number <- function(df, label) df$number[df$reason_exclusion %in% label]
+get_proportion <- function(df, label) df$proportion[df$reason_exclusion %in% label]
+```
+
+```{r}
+#| echo: false
 
 # Compute the required z-score to obtain 80% power
 z_score <- round(power_to_z(0.8, alpha = 0.05), 1)
@@ -402,7 +415,7 @@ average_fleiss <- round(mean(agreement_3_coders[c(16, 17, 19, 20), 2]), 2)
 average_cohen <- round(mean(agreement_2_coders[c(16, 17, 19, 20), 2]), 2)
 ```
 
-Prior to collecting any data, and in anticipation of difficulties to select the statistical result central to the tested hypothesis, we developed a coding strategy over a four-step process. First, the four authors (CM, JM, DL and JW) developed and discussed the coding form created by CM. Ambiguities in the coding form were discussed, and amendments were made. Second, three raters (CM, JM and JW) independently coded a randomly selected subset of 28 studies from the sample pool of studies (350) as a pilot study. Subsequently, raters’ responses were compared, and any disagreements were used to improve the clarity of the coding form. Third, the same three raters (CM, JM and JW) independently coded a second random subset of 19 studies. Inter-rater agreement was assessed by calculating a pooled Fleiss’ Kappa estimate for each coding category across the 47 studies coded in the first two rounds of coding. The mean inter-rater agreement for the categorical responses was `r average_fleiss`, indicating substantial agreement. The second round of coding was also used to discuss disagreements. The remaining 303 studies were double-coded whereby both JM and JW each coded \~176 studies and CM coded the full sample of studies (350). Inter-rater agreement was assessed by calculating a pooled Cohen’s Kappa estimate. The inter-rater agreement for the final round of coding was `r average_cohen`, indicating almost perfect agreement. Inter-rater agreements across variables and the coding form can be found at <https://doi.org/10.17605/OSF.IO/SFBVA>. After termination of data collection, any discrepancies in coding decisions were resolved through discussion between the two pairs of raters and can be found at <https://doi.org/10.17605/OSF.IO/SFBVA>. DL provided guidance when discrepancies arose and agreement between two raters could not be reached.
+Prior to collecting any data, and in anticipation of difficulties to select the statistical result central to the tested hypothesis, we developed a coding strategy over a four-step process. First, the four authors (CM, JM, DL and JW) developed and discussed the coding form created by CM. Ambiguities in the coding form were discussed, and amendments were made. Second, three raters (CM, JM and JW) independently coded a randomly selected subset of 28 studies from the sample pool of studies (350) as a pilot study. Subsequently, raters’ responses were compared, and any disagreements were used to improve the clarity of the coding form. Third, the same three raters (CM, JM and JW) independently coded a second random subset of 19 studies. Inter-rater agreement was assessed by calculating a pooled Fleiss’ Kappa estimate for each coding category across the 47 studies coded in the first two rounds of coding. The mean inter-rater agreement for the categorical responses was `r average_fleiss`, indicating moderate agreement. The second round of coding was also used to discuss disagreements. The remaining 303 studies were double-coded whereby both JM and JW each coded \~176 studies and CM coded the full sample of studies (350). Inter-rater agreement was assessed by calculating a pooled Cohen’s Kappa estimate. The inter-rater agreement for the final round of coding was `r average_cohen`, indicating substantial agreement. Inter-rater agreements across variables and the coding form can be found at <https://doi.org/10.17605/OSF.IO/SFBVA>. After termination of data collection, any discrepancies in coding decisions were resolved through discussion between the two pairs of raters and can be found at <https://doi.org/10.17605/OSF.IO/SFBVA>. DL provided guidance when discrepancies arose and agreement between two raters could not be reached.
 
 ### Procedures and data extraction
 
@@ -416,7 +429,7 @@ The $z$-curve method requires exact *p*-values (e.g., $p$ = 0.002) as input. If 
 
 *P*-values reported as $p$ \< 0.05 or $p$ \> 0.05, which could not be recomputed in their exact form, were excluded. There is no optimal decision in how to deal with *p*-values in studies where results are underreported, and exact $p$-values cannot be recomputed, which stresses the importance of fully reporting the results of statistical tests. Second, $p$-values extracted from studies that tested the hypothesis of no effect or equivalence using a classic hypothesis test were not included. Similarly, $p$-values obtained from studies that tested a directional hypothesis but obtained a significant result in the other direction were not included because they can also distort the results of the $z$-curve. Finally, studies that used a mixed design but did not directly compare two interventions were excluded, such as claims that one intervention is superior to a control condition after observing a pre-post significant difference in the intervention group, while the corresponding pre-post difference in the control group is not significant. Performing two paired *t*-tests is statistically invalid because it does not test the hypothesis that researchers set out to test (i.e., one intervention is superior or inferior to the other), which would require a direct comparison between the two groups [@bland_2011].
 
-Out of the `r nrow(zcurve_data)` independent *p*-values extracted, `r excluded$excluded[1]` (`r excluded$proportion[1]`%) were excluded. Among those `r excluded$excluded[1]` *p*-values, `r excluded_category$number[1]` (`r excluded_category$proportion[1]`%) could not be recomputed into an exact *p*-value, `r excluded_category$number[2]` (`r excluded_category$proportion[2]`%) studies tested a hypothesis of no difference without using an equivalence test, `r excluded_category$number[3]` (`r excluded_category$proportion[3]`%) studies reported a significant *p*-value in the opposite direction as predicted, for `r excluded_category$number[4]` (`r excluded_category$proportion[4]`%) studies the key statistical result was unclear, and `r excluded_category$number[5]` (`r excluded_category$proportion[5]`%) used a within-subject comparison instead of an interaction effect, meaning the result of the test for the hypothesis was not reported. As a result, a total of `r nrow(zcurve_data) - excluded$excluded[1]` *p*-values were converted into $z$-scores to fit the $z$-curve model.
+Out of the `r nrow(zcurve_data)` independent *p*-values extracted, `r excluded$excluded[1]` (`r excluded$proportion[1]`%) were excluded. Among those `r excluded$excluded[1]` *p*-values, `r get_number(excluded_category, "not reported")` (`r get_proportion(excluded_category, "not reported")`%) could not be recomputed into an exact *p*-value, `r get_number(excluded_category, "null effect")` (`r get_proportion(excluded_category, "null effect")`%) studies tested a hypothesis of no difference without using an equivalence test, `r get_number(excluded_category, "significant in the other direction")` (`r get_proportion(excluded_category, "significant in the other direction")`%) studies reported a significant *p*-value in the opposite direction as predicted, for `r get_number(excluded_category, "unclear")` (`r get_proportion(excluded_category, "unclear")`%) studies the key statistical result was unclear, and `r get_number(excluded_category, "within-subject comparison")` (`r get_proportion(excluded_category, "within-subject comparison")`%) used a within-subject comparison instead of an interaction effect, meaning the result of the test for the hypothesis was not reported. As a result, a total of `r nrow(zcurve_data) - excluded$excluded[1]` *p*-values were converted into $z$-scores to fit the $z$-curve model.
 
 ### Study deviations
 
@@ -436,9 +449,9 @@ results <- summary(primary_zcurve, all = TRUE)
 
 ## Results
 
-Out of all `r nrow(zcurve_data) - excluded$excluded[1]` included *p*-values, `r included_as_exact$number[1] + included_as_exact$number[2] + included_as_exact$number[3]` were imputed as follows: `r included_as_exact$number[1]` were reported as *p* \< 0.001, `r included_as_exact$number[2]` as *p* \< 0.003 and `r included_as_exact$number[3]` (1/350) as *p* \< 0.005, which were coded as *p* = 0.0001, *p* = 0.0003 and *p* = 0.0005, respectively, and were included in the $z$-curve model. In addition to the sensitivity analysis excluding these $p$-values, further sensitivity analyses were conducted at the reviewer’s request. These included: (2) a sensitivity analysis in which `r nrow(s_imprecise_pvalues)` $p$-values reported as $p$ \< 0.05 that could not be recomputed and were not included in the primary $z$-curve were imputed as 0.025; (3) a sensitivity analysis in which `r nrow(ns_imprecise_pvalues)` $p$-values reported as $p$ \> 0.05 that could not be recomputed and were not included in the primary $z$-curve were imputed as 0.05, chosen as the most conservative value (i.e., producing the highest average power); and (4) a sensitivity analysis combinig both sets of imputed $p$-values. All four sensitivity analyses returned results consistent with those of the primary $z$-curve. The results of the sensitivity analyses can be found at [https://doi.org/10.17605/OSF.IO/SFBVA](#0){.uri}.
+Out of all `r nrow(zcurve_data) - excluded$excluded[1]` included *p*-values, `r get_number(included_as_exact, "p < 0.001") + get_number(included_as_exact, "p < 0.003") + get_number(included_as_exact, "p < 0.005")` were imputed as follows: `r get_number(included_as_exact, "p < 0.001")` were reported as *p* \< 0.001, `r get_number(included_as_exact, "p < 0.003")` as *p* \< 0.003 and `r get_number(included_as_exact, "p < 0.005")` (`r get_number(included_as_exact, "p < 0.005")`/`r nrow(zcurve_data) - excluded$excluded[1]`) as *p* \< 0.005, which were coded as *p* = 0.0001, *p* = 0.0003 and *p* = 0.0005, respectively, and were included in the $z$-curve model. In addition to the sensitivity analysis excluding these $p$-values, further sensitivity analyses were conducted at the reviewer’s request. These included: (2) a sensitivity analysis in which `r nrow(s_imprecise_pvalues)` $p$-values reported as $p$ \< 0.05 that could not be recomputed and were not included in the primary $z$-curve were imputed as 0.025; (3) a sensitivity analysis in which `r nrow(ns_imprecise_pvalues)` $p$-values reported as $p$ \> 0.05 that could not be recomputed and were not included in the primary $z$-curve were imputed as 0.05, chosen as the most conservative value (i.e., producing the highest average power); and (4) a sensitivity analysis combinig both sets of imputed $p$-values. All four sensitivity analyses returned results consistent with those of the primary $z$-curve. The results of the sensitivity analyses can be found at [https://doi.org/10.17605/OSF.IO/SFBVA](#0){.uri}.
 
-The results of the $z$-curve analysis are shown in @fig-fig1.4. The Observed Discovery Rate was `r round(primary_zcurve$N_sig/primary_zcurve$N_obs, 2)*100`% (95% CI \[62; 74\]), indicating that `r round(primary_zcurve$N_sig / primary_zcurve$N_obs, 2)*100`% of sampled studies supported the hypothesis tested. The Expected Discovery Rate was `r round(results$coefficients[2, 1], 2)*100`% (95% \[`r round(results$coefficients[2, 2], 2)*100`; `r round(results$coefficients[2, 3], 2)*100`\]), indicating an average power of `r round(results$coefficients[2, 1]*100, 0)`% for studies reporting both significant and non-significant results. The Expected Replication Rate was `r round(results$coefficients[1, 2], 2)*100`% (95% CI \[`r round(results$coefficients[1, 2], 2)*100`; `r round(results$coefficients[1, 3], 2)*100`\]) indicating that studies reporting significant results have an average power of `r round(results$coefficients[1, 1]*100, 0)`%. This suggests that if we were going to conduct direct replications with the sample size of the original studies reporting significant findings, only `r round(results$coefficients[1, 1]*100, 0)`% of these studies would be expected to yield another significant effect.
+The results of the $z$-curve analysis are shown in @fig-fig1.4. The Observed Discovery Rate was `r round(primary_zcurve$N_sig/primary_zcurve$N_obs, 2)*100`% (95% CI \[62; 74\]), indicating that `r round(primary_zcurve$N_sig / primary_zcurve$N_obs, 2)*100`% of sampled studies supported the hypothesis tested. The Expected Discovery Rate was `r round(results$coefficients[2, 1], 2)*100`% (95% \[`r round(results$coefficients[2, 2], 2)*100`; `r round(results$coefficients[2, 3], 2)*100`\]), indicating an average power of `r round(results$coefficients[2, 1]*100, 0)`% for studies reporting both significant and non-significant results. The Expected Replication Rate was `r round(results$coefficients[1, 1], 2)*100`% (95% CI \[`r round(results$coefficients[1, 2], 2)*100`; `r round(results$coefficients[1, 3], 2)*100`\]) indicating that studies reporting significant results have an average power of `r round(results$coefficients[1, 1]*100, 0)`%. This suggests that if we were going to conduct direct replications with the sample size of the original studies reporting significant findings, only `r round(results$coefficients[1, 1]*100, 0)`% of these studies would be expected to yield another significant effect.
 
 Selection bias can be examined by comparing the Observed Discovery Rate (the percentage of significant results in the set of studies) to the Expected Discovery Rate (the proportion of the area under the curve on the right side of the significance criterion). The point estimate of the Observed Discovery Rate (`r round(primary_zcurve$N_sig/primary_zcurve$N_obs, 2)*100`%) is larger than the upper bound of the 95% CI of the Expected Discovery Rate (\[`r round(results$coefficients[2, 2], 2)*100`; `r round(results$coefficients[2, 3], 2)*100`\]), suggesting that we can statistically reject the null hypothesis of no selection bias. The point estimate of the Maximum False Discovery Risk was `r round(results$coefficients[3, 1],2)*100`% (95% CI \[`r round(results$coefficients[3, 2], 2)*100`; `r round(results$coefficients[3, 3], 2)*100`\]), indicating that, in a worst-case scenario, an estimated `r round(results$coefficients[3, 1], 2)*100`% of the significant effects could be type I errors.
 

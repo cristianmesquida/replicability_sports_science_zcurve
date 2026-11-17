@@ -45,7 +45,7 @@ replicability_sports_science_zcurve/
 |   ├── intercoder_agreement/
 │       ├── 01_checking_disagreements.R         # Produces disagreements3.xlsx & disagreements2.xlsx
 │       ├── 02_intercoder_agreement_function.R  # Functions to assess intercoder agreement
-│       ├── 03_intercoder_agreement.Rmd         # Results of intercoder agreement across variables
+│       ├── 03_intercoder_agreement.R           # Results of intercoder agreement across variables
 │       └── 04_consolidate_data.R               # Merges columns after resolving disagreements
 |    
 ├── figures/ 

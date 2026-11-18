@@ -103,3 +103,5 @@ quarto render manuscript/zcurve_sensitivity_analysis.qmd
 Both documents read `data/processed/zcurve_data.xlsx` directly. `zcurve.qmd` additionally reads `output/table2.rds` and `output/figure2a.png`-`figure2f.png` (step 2) and sources `03_intercoder_agreement.R` (step 1) while rendering.
 
 (`zcurve.qmd` computes Figure 1 (`fig-fig1.1`) inline with its own code, so no script needs to be run for it. Rendering `zcurve.qmd` also saves Figure 4 (`fig-fig1.4`) to `output/figure4.png`.)
+
+[![DOI](https://zenodo.org/badge/955237113.svg)](https://doi.org/10.5281/zenodo.24319250)

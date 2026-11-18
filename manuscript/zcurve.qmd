@@ -509,3 +509,8 @@ Cristian Mesquida was supported by the Ammodo Science Award 2023 for Social Scie
 ## **Data Accessibility Statement**
 
 The raw data, analysis code, sensitivity analyses, and supplementary materials associated with this studyare publicly available on Zenodo: <https://doi.org/10.5281/zenodo.24319250>.
+
+## **Use of Artificial Intelligence**
+
+Claude Sonnet 5 was used to assist with checking the reproducibility of the manuscript.
+

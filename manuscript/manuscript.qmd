@@ -11,6 +11,7 @@ format:
     include-in-header: header.tex
 bibliography: references.bib
 csl: apa.csl
+nocite: '@Rcoreteam'
 ---
 
 \textsuperscript{1} Human-Technology Interaction Group, Eindhoven University of Technology, Eindhoven, The Netherlands
@@ -338,7 +339,7 @@ A sample of 350 studies was used for the purpose of this study. As stated in the
 
 ### Journal and study selection protocol
 
-The 350 studies were sampled from 10 journals ranked in quartile 1 according to www.scimagojr.com (as of 13th September 2022). The list of journals, along with the number of studies sampled from each, is depicted in @fig-fig3. All studies were published between 2024 and 2018. We started at a given issue and worked backwards. The study selection protocol was based on the Proposal of a Selection Protocol for Replication of Studies in Sports and Exercise Science [@murphy_2022]. First, only applied sport and exercise science studies (studying changes in human performance in response to physical activity, exercise, and sport) in the sub-disciplines of physiology, sports performance, physical activity, injury prevention, and psychology were considered. Second, only confirmatory studies that tested a hypothesis with an experimental (randomized controlled trials) or quasi-experimental design (non-randomized controlled trials) were included. Third, studies had to use an $F$-test (i.e., ANOVA) or $t$-test as an inferential test to evaluate the hypothesis; studies that employed correlations, mixed models or Bayesian statistics were excluded. We followed the protocol described in Murphy et al. [-@murphy_2022] to select studies, with two deviations from the original protocol. First, whereas the original protocol only selected studies that reported a statistically significant effect, we considered both statistically significant and non-significant effects. This is because the $z$-curve analysis uses both significant and non-significant $p$-values. Second, we also considered interaction effects, which were not considered in the original selection protocol.
+The 350 studies were sampled from 10 journals ranked in the first quartile (Q1) according to SCImago Journal Rank (www.scimagojr.com) as of September 13, 2022. The list of journals, along with the number of studies sampled from each, is depicted in @fig-fig3. All studies were published between 2024 and 2018. We started at a given issue and worked backwards. The study selection protocol was based on the Proposal of a Selection Protocol for Replication of Studies in Sports and Exercise Science [@murphy_2022]. First, only applied sport and exercise science studies (studying changes in human performance in response to physical activity, exercise, and sport) in the sub-disciplines of physiology, sports performance, physical activity, injury prevention, and psychology were considered. Second, only confirmatory studies that tested a hypothesis with an experimental (randomized controlled trials) or quasi-experimental design (non-randomized controlled trials) were included. Third, studies had to use an $F$-test (i.e., ANOVA) or $t$-test as an inferential test to evaluate the hypothesis; studies that employed correlations, mixed models or Bayesian statistics were excluded. We followed the protocol described in Murphy et al. [-@murphy_2022] to select studies, with two deviations from the original protocol. First, whereas the original protocol only selected studies that reported a statistically significant effect, we considered both statistically significant and non-significant effects. This is because the $z$-curve analysis uses both significant and non-significant $p$-values. Second, we also considered interaction effects, which were not considered in the original selection protocol.
 
 ```{r}
 #| echo: false
@@ -347,14 +348,16 @@ The 350 studies were sampled from 10 journals ranked in quartile 1 according to 
 #| fig-height: 5
 #| fig-cap: "List of journals from which the 350 independent *p*-values were extracted, along with the number of studies sampled from each journal and the corresponding proportion."
 
+# Create the data frame for the journal summary
 journal_summary <- zcurve_data |>
   rename(Journal = journal) |>
   count(Journal, name = "Number") |>
   mutate(
     Proportion = Number / nrow(zcurve_data) * 100,
-    Label = paste0(round(Proportion, 0), "%")  # proportion as label
+    Label = paste0(round(Proportion, 0), "%"),
+    Journal = recode(Journal, "Scandinavian Journal" = "Scandinavian Journal of Medicine & Science in Sports")
   ) |>
-  arrange(Number) |>  # order from smallest → largest
+  arrange(Number) |>  
   mutate(Journal = factor(Journal, levels = Journal))
 
 # Create the horizontal bar plot
@@ -362,7 +365,7 @@ ggplot(journal_summary, aes(x = Number, y = Journal)) +
   geom_col(fill = "grey70") +
   geom_text(
     aes(label = Label),
-    hjust = -0.1,   # label just outside the bar
+    hjust = -0.1,   
     size = 4
   ) +
   labs(
@@ -370,8 +373,8 @@ ggplot(journal_summary, aes(x = Number, y = Journal)) +
     y = NULL
   ) +
    scale_x_continuous(
-    limits = c(0, 50),        # set x-axis from 0 to 50
-    expand = c(0, 0)          # remove extra padding
+    limits = c(0, 50),        
+    expand = c(0, 0)          
   ) +
   coord_cartesian(clip = "off") +
   theme_classic() +
@@ -387,24 +390,34 @@ ggplot(journal_summary, aes(x = Number, y = Journal)) +
 #| echo: false
 #| message: false
 
-# Load script to calculate intercoder agreement
-source(here("r_scripts", "intercoder_agreement", "03_intercoder_agreement.R"))
+# Load pre-computed inter-coder agreement results, covering all coded
+# variables (see r_scripts/intercoder_agreement/03_intercoder_agreement.R)
+intercoder_agreement <- readRDS(here("output", "intercoder_agreement.rds"))
+
+# Variables for which we report the average inter-rater agreement: the
+# hypothesis and statistical-result coding decisions that feed the z-curve
+# analysis
+key_variables <- c("support_hypothesis", "type_hypothesis",
+                    "statistical_result", "type_effect")
+
+# Average Fleiss' (3 coders) and Cohen's (2 coders) kappa for the variables of
+# interest, selected by name rather than row position
+average_fleiss <- round(mean(intercoder_agreement$fleiss_kappa[intercoder_agreement$variable %in% key_variables]), 2)
+average_cohen <- round(mean(intercoder_agreement$cohen_kappa[intercoder_agreement$variable %in% key_variables]), 2)
 ```
 
-```{r average_fleiss}
-#| echo: false
+```{r}
+#| eval: false
 
-# Calculate average Fleiss' kappa for "support_hypothesis", "type_hypothesis" and
-# "statistical_result", "type_effect"
-average_fleiss <- round(mean(agreement_3_coders[c(16, 17, 19, 20), 2]), 2)
-```
-
-```{r average_cohen}
-#| echo: false
-
-# Calculate average Cohen's Kappa for "support_hypothesis", "type_hypothesis",
-# "statistical_result" and "type_effect"
-average_cohen <- round(mean(agreement_2_coders[c(16, 17, 19, 20), 2]), 2)
+# Fleiss' kappa (3 coders) and Cohen's kappa (2 coders) for each of the
+# variables of interest individually, underlying the averages reported above
+kable(
+  intercoder_agreement[intercoder_agreement$variable %in% key_variables,
+                        c("variable", "fleiss_kappa", "cohen_kappa")],
+  col.names = c("Coding category", "Fleiss' kappa (3 coders)", "Cohen's kappa (2 coders)"),
+  align = "l",
+  booktabs = TRUE
+)
 ```
 
 Prior to collecting any data, and in anticipation of difficulties to select the statistical result central to the tested hypothesis, we developed a coding strategy over a four-step process. First, the four authors (CM, JM, DL and JW) developed and discussed the coding form created by CM. Ambiguities in the coding form were discussed, and amendments were made. Second, three raters (CM, JM and JW) independently coded a randomly selected subset of 28 studies from the sample pool of studies (350) as a pilot study. Subsequently, raters’ responses were compared, and any disagreements were used to improve the clarity of the coding form. Third, the same three raters (CM, JM and JW) independently coded a second random subset of 19 studies. Inter-rater agreement was assessed by calculating a pooled Fleiss’ Kappa estimate for each coding category across the 47 studies coded in the first two rounds of coding. The mean inter-rater agreement for the categorical responses was `r average_fleiss`, indicating moderate agreement. The second round of coding was also used to discuss disagreements. The remaining 303 studies were double-coded whereby both JM and JW each coded \~176 studies and CM coded the full sample of studies (350). Inter-rater agreement was assessed by calculating a pooled Cohen’s Kappa estimate. The inter-rater agreement for the final round of coding was `r average_cohen`, indicating substantial agreement. Inter-rater agreement across variables and the coding form are available in the project repository. After termination of data collection, any discrepancies in coding decisions were resolved through discussion between the two pairs of raters. The resulting consensus decisions are also documented in the project repository. DL provided guidance when discrepancies arose and agreement between two raters could not be reached.
@@ -429,7 +442,7 @@ In the preregistration, it was stated that studies reporting absolute *p*-values
 
 ### Statistical analysis and software
 
-All simulations and $z$-curve analyses were performed in R (`r version$version.string`; R Core Team @Rcoreteam) using the *zcurve 2.0* package [@zcurve_pkg]. R packages used to produce this manuscript and the accompanying sensitivity analyses include *DescTools* [@desctools_pkg], *dplyr* [@dplyr_pkg], *ggplot2* [@ggplot2_pkg], *here* [@here], *irr* [@irr], *kableExtra* [@kableextra_pkg]*, knitr* [@knitr_pkg], *lpSolve* [@lpsolve_pkg], *purrr* [@purrr_pkg], *readxl* [@readxl_pkg] and *writexl* [@writexl_pkg]. The manuscript was written in *Quarto* [@quarto_pkg].
+All simulations and $z$-curve analyses were performed in R (`r version$version.string`; R Core Team R Core Team 2024) using the *zcurve* package (version `r packageVersion("zcurve")`; Bartoš & Schimmack 2020). R packages used to produce this manuscript and the accompanying sensitivity analyses include *DescTools* [@desctools_pkg], *dplyr* [@dplyr_pkg], *ggplot2* [@ggplot2_pkg], *here* [@here], *irr* [@irr], *kableExtra* [@kableextra_pkg]*, knitr* [@knitr_pkg], *lpSolve* [@lpsolve_pkg], *purrr* [@purrr_pkg], *readxl* [@readxl_pkg] and *writexl* [@writexl_pkg]. The manuscript was written in *Quarto* [@quarto_pkg].
 
 ## Results
 
@@ -471,7 +484,7 @@ Given the presence of selection bias and an average power of `r round(results$co
 
 To improve the informational value of studies published in the sports and exercise literature, the field should adopt several complementary practices to prevent selection bias and underpowered designs. First, Registered Reports are an effective safeguard against st publication bias and $p$-hacking [@chambers_2021; @nosek_lakens_2014]. In this format, the study protocol—including hypotheses, methods, and statistical analyses—is peer reviewed before data collection, and journals offer in-principle acceptance, meaning the study will be published regardless of whether the hypotheses are supported, provided the approved protocol is followed. Despite their utility, only three journals in sport and exercise science currently accept Registered Reports [@abt_rr2021; @impellizzeri_2019; @rasmussen2025]. Researchers should also design their studies with high power by conducting rigorous a priori power analyses. Unfortunately, only 41% of studies in our sample performed an a priori power analysis to justify the sample size, and of those, many were poorly conducted [@mesquida_power_analysis_2025]. Combined with the systematic use of small samples [@Abt2020; @mesquida2022; @mesquida_power_analysis_2025], this is a serious concern for the field. Journals should require valid sample size justifications [@lakenssamplejustification], researchers should ensure power analyses are conducted correctly, and collaborative research should be considered when individual data collection is challenging. Researchers should avoid overgeneralizing results from underpowered studies [@impellizzeri2025]. Beyond these practices, the field should increasingly adopt rigorous preregistration of hypothesis-testing studies when researchers choose not to use Registered Reports[@lakens_2024], higher standard for open data and code [@borg_sharing_practices], transparent reporting of exploratory research [@ditroilo2025], and collaborate with statisticians to ensure adequate study design and statistical analyses [@sainani_collaboration]. Together, these measures can substantially increase the reproducibility, replicability and therefore informational value of research in sports and exercise science.
 
-We need to highlight three limitations of our study. First, all bias-detection methods rely on simplified models of selection bias and therefore rest on assumptions that will inevitably be violated to some extent. Although $z$-curve provides one of the most informative tools currently available for drawing inferences about selection bias in sports and exercise science, the true state of the field cannot be known in the absence of complete transparency. Consequently, $z$-curve results should be interpreted as our best available indication of selection bias, while recognizing that no statistical method can perfectly quantify the degree of bias in a scientific literature. Second, even though we followed a coding scheme, the raters often had to make subjective decisions when selecting the key statistical result. These difficulties arose because hypotheses were often vaguely stated, mainly as a result of two issues: 1) the effect of interest was often not clearly stated, and 2) the primary outcome was often operationalized using additional measures of the same construct, or measured in multiple ways [@wicherts_2016]. These two issues, either in isolation or in combination, result in a multiplicity of hypothesis tests, which makes it difficult to link the tested hypothesis to the statistical result. Third, we included only studies that tested their hypotheses with *t*-tests or ANOVAs and thus excluded studies that used other types of statistical tests, such as mixed models or Bayesian analyses. We do not know if our results generalize to other designs or analyses. Fourth, `r excluded[1]` (`r excluded[2]`%) out of the `r nrow(zcurve_data)` independent *p*-values were excluded due to poor reporting practices or misuse of hypothesis tests (e.g., testing a hypothesis of no difference with a classic null hypothesis test). This means our findings do not generalize to studies that fail to fully report statistical results.
+We need to highlight five limitations of our study. First, all bias-detection methods rely on simplified models of selection bias and therefore rest on assumptions that will inevitably be violated to some extent. Although $z$-curve provides one of the most informative tools currently available for drawing inferences about selection bias in sports and exercise science, the true state of the field cannot be known in the absence of complete transparency. Consequently, $z$-curve results should be interpreted as our best available indication of selection bias, while recognizing that no statistical method can perfectly quantify the degree of bias in a scientific literature. Second, our primary $z$-curve analysis was based on only `r primary_zcurve$N_sig` statistically significant $z$-scores (i.e., $z$-scores exceeding 1.96), fewer than the 300 significant test statistics recommended for the method to perform reliably; the `zcurve` R package itself flags analyses below this threshold, warning that the method may produce undercoverage and biased estimates of the Expected Discovery Rate in small samples [@zcurve_pkg]. Thus, the Expected Replication Rate estimate and their confidence intervals should be interpreted with this caveat in mind. Third, even though we followed a coding scheme, the raters often had to make subjective decisions when selecting the key statistical result. These difficulties arose because hypotheses were often vaguely stated, mainly as a result of two issues: 1) the effect of interest was often not clearly stated, and 2) the primary outcome was often operationalized using additional measures of the same construct, or measured in multiple ways [@wicherts_2016]. These two issues, either in isolation or in combination, result in a multiplicity of hypothesis tests, which makes it difficult to link the tested hypothesis to the statistical result. Fourth, we included only studies that tested their hypotheses with *t*-tests or ANOVAs and thus excluded studies that used other types of statistical tests, such as mixed models or Bayesian analyses. We do not know if our results generalize to other designs or analyses. Fifth, `r excluded[1]` (`r excluded[2]`%) out of the `r nrow(zcurve_data)` independent *p*-values were excluded due to poor reporting practices or misuse of hypothesis tests (e.g., testing a hypothesis of no difference with a classic null hypothesis test). This means our findings do not generalize to studies that fail to fully report statistical results.
 
 ## Conclusion
 
@@ -513,4 +526,3 @@ The raw data, analysis code, sensitivity analyses, and supplementary materials a
 ## **Use of Artificial Intelligence**
 
 Claude Sonnet 5 was used to assist with checking the reproducibility of the manuscript.
-

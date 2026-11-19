@@ -55,6 +55,7 @@ replicability_sports_science_zcurve/
 |   ├── figure2d.png                          # Figure 2d: publication bias and null effect
 |   ├── figure2e.png                          # Figure 2e: mild optional stopping
 |   ├── figure2f.png                          # Figure 2f: mixed
+|   ├── intercode_agreement.rds               # Results stored from 03_intercoder_agreement.R
 |   └── figure4.png                           # Figure 4: z-curve fit to the primary 269 z-scores; saved while zcurve.qmd renders
 |
 ├── sensitivity_analysis/ 

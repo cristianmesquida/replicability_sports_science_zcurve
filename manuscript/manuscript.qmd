@@ -408,6 +408,7 @@ average_cohen <- round(mean(intercoder_agreement$cohen_kappa[intercoder_agreemen
 
 ```{r}
 #| eval: false
+#| echo: false
 
 # Fleiss' kappa (3 coders) and Cohen's kappa (2 coders) for each of the
 # variables of interest individually, underlying the averages reported above

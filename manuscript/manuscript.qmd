@@ -331,11 +331,11 @@ The present study aims to contribute to the Sports Science Replication Project b
 
 ## Methods
 
-This is a retrospective observational study. The preregistration of this study can be found on the Open Science Framework at <https://doi.org/10.17605/OSF.IO/SFBVA>. The raw data, analysis code, results and materials associated with this study are publicly available on Zenodo: <https://doi.org/10.5281/zenodo.24319250>.
+This is a retrospective observational study. The preregistration of this study can be found on the Open Science Framework at <https://osf.io/d7wyc/overview>. The raw data, analysis code, results and materials associated with this study are publicly available on Zenodo: <https://doi.org/10.5281/zenodo.24319250>.
 
 ### Study sample size
 
-A sample of 350 studies was used for the purpose of this study. As stated in the preregistration, this sample size was based on a precision analysis conducted for a previous study [@mesquida_power_analysis_2025], which aimed to estimate the prevalence, reporting practices and reproducibility of a priori power analyses in sports and exercise science journals. Specifically, the precision analysis was conducted to estimate the number of studies required to detect an expected proportion of studies reporting an a priori power analysis (<https://doi.org/10.17605/OSF.IO/MQBR2>). Assuming an expected proportion of 30% with a margin of error of 5%, the analysis indicated a required sample of 323 studies, which was subsequently rounded up to 350 studies. For convenience, the same set of 350 studies was used in both the previous study [@mesquida_power_analysis_2025] and the present study (<https://doi.org/10.17605/OSF.IO/SFBVA>).
+A sample of 350 studies was used for the purpose of this study. As stated in the preregistration, this sample size was based on a precision analysis conducted for a previous study [@mesquida_power_analysis_2025], which aimed to estimate the prevalence, reporting practices and reproducibility of a priori power analyses in sports and exercise science journals. Specifically, the precision analysis was conducted to estimate the number of studies required to detect an expected proportion of studies reporting an a priori power analysis (<https://doi.org/10.17605/OSF.IO/MQBR2>). Assuming an expected proportion of 30% with a margin of error of 5%, the analysis indicated a required sample of 323 studies, which was subsequently rounded up to 350 studies. For convenience, the same set of 350 studies was used in both the previous study [@mesquida_power_analysis_2025] and the present study (<https://osf.io/d7wyc/overview>).
 
 ### Journal and study selection protocol
 
